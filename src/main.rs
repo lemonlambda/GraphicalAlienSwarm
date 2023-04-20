@@ -4,6 +4,9 @@ use bevy::prelude::*;
 use bevy_ecs_tilemap::prelude::*;
 use rand::Rng;
 
+mod tileset_consts;
+use tileset_consts::*;
+
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
@@ -33,11 +36,11 @@ fn startup(
             let tile_entity = commands
                 .spawn(TileBundle {
                     position: tile_pos,
-                    texture_index: TileTextureIndex(match rng.gen_range(0..=25) {
-                        10..=17 => 3,
-                        18..=22 => 2,
-                        23..=25 => 2,
-                        _ => 0
+                    texture_index: TileTextureIndex(match rng.gen_range(0..=50) {
+                        10..=17 => SMALL_ROCKS[rng.gen_range(0..4)],
+                        18..=22 => MEDIUM_ROCKS[rng.gen_range(0..4)],
+                        23..=25 => LARGE_ROCKS[rng.gen_range(0..4)],
+                        _ => JUST_DIRT
                     }),
                     tilemap_id: TilemapId(tilemap_entity),
                     ..Default::default()
