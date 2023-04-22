@@ -12,7 +12,9 @@ use tileset_consts::*;
 
 fn main() {
     App::new()
-        .add_plugins(DefaultPlugins)
+        .add_plugins(DefaultPlugins.set(
+            ImagePlugin::default_nearest()
+        ))
         .add_plugin(TilemapPlugin)
         .add_startup_system(startup)
         .add_system(move_camera)
@@ -30,7 +32,10 @@ fn startup(
     let mut rng = rand::thread_rng();
     commands.spawn((Camera2dBundle::default(), CameraComponent));
 
-    let texture_handle: Handle<Image> = asset_server.load("TileSheet.png");
+    let texture_handle: Vec<Handle<Image>> = vec![
+        asset_server.load("Dirt.png"),
+        asset_server.load("Rock.png")
+    ];
 
     let map_size = TilemapSize { x: 128, y: 128 };
 
@@ -66,7 +71,7 @@ fn startup(
         map_type,
         size: map_size,
         storage: tile_storage,
-        texture: TilemapTexture::Single(texture_handle),
+        texture: TilemapTexture::Vector(texture_handle),
         tile_size,
         transform: get_tilemap_center_transform(&map_size, &grid_size, &map_type, 0.0),
        ..Default::default() 
