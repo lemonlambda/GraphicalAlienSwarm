@@ -22,7 +22,9 @@ fn main() {
 }
 
 #[derive(Component)]
-pub struct CameraComponent;
+pub struct CameraComponent {
+    pub held_down_mult: f32
+}
 
 fn startup(
     mut commands: Commands,
@@ -30,7 +32,9 @@ fn startup(
     array_texture_loader: Res<ArrayTextureLoader>
 ) {
     let mut rng = rand::thread_rng();
-    commands.spawn((Camera2dBundle::default(), CameraComponent));
+    commands.spawn((Camera2dBundle::default(), CameraComponent {
+        held_down_mult: 1.0
+    }));
 
     let texture_handle: Vec<Handle<Image>> = vec![
         asset_server.load("Dirt.png"),
