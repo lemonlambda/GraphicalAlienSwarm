@@ -4,6 +4,9 @@ use bevy::prelude::*;
 use bevy_ecs_tilemap::prelude::*;
 use rand::Rng;
 
+mod camera;
+use camera::move_camera;
+
 mod tileset_consts;
 use tileset_consts::*;
 
@@ -12,8 +15,12 @@ fn main() {
         .add_plugins(DefaultPlugins)
         .add_plugin(TilemapPlugin)
         .add_startup_system(startup)
+        .add_system(move_camera)
         .run();
 }
+
+#[derive(Component)]
+pub struct CameraComponent;
 
 fn startup(
     mut commands: Commands,
@@ -21,7 +28,7 @@ fn startup(
     array_texture_loader: Res<ArrayTextureLoader>
 ) {
     let mut rng = rand::thread_rng();
-    commands.spawn(Camera2dBundle::default());
+    commands.spawn((Camera2dBundle::default(), CameraComponent));
 
     let texture_handle: Handle<Image> = asset_server.load("TileSheet.png");
 
