@@ -112,6 +112,7 @@ version = "0.1.0"
 dependencies = [
  "bevy",
  "bevy_ecs_tilemap",
+ "partial-min-max",
  "rand",
 ]
 
@@ -2380,6 +2381,12 @@ dependencies = [
  "smallvec",
  "windows-sys 0.45.0",
 ]
+
+[[package]]
+name = "partial-min-max"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6448add382c60bbbc64f9dab41309a12ec530c05191601042f911356ac09758c"
 
 [[package]]
 name = "paste"
