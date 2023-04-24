@@ -1,23 +1,21 @@
 #![feature(exclusive_range_pattern)]
 
 use bevy::prelude::*;
-use bevy_ecs_tilemap::prelude::*;
 use rand::Rng;
+use bevy_tileset::prelude::*;
 
 mod camera;
 use camera::move_camera;
-
-mod tileset_consts;
-use tileset_consts::*;
 
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins.set(
             ImagePlugin::default_nearest()
         ))
-        .add_plugin(TilemapPlugin)
+        .add_plugin(TilesetPlugin::default())
         .add_startup_system(startup)
         .add_system(move_camera)
+        .add_system(init_tiles)
         .run();
 }
 
@@ -29,10 +27,14 @@ pub struct CameraComponent {
 fn startup(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
-    array_texture_loader: Res<ArrayTextureLoader>
 ) {
-    let mut rng = rand::thread_rng();
-    commands.spawn((Camera2dBundle::default(), CameraComponent {
+    commands.spawn((Camera2dBundle {
+        transform: Transform {
+            translation: Vec3::new(0.0, 0.0, 999.0),
+            ..Default::default()
+        },
+        ..Default::default()
+    }, CameraComponent {
         held_down_mult: 1.0
     }));
 }
