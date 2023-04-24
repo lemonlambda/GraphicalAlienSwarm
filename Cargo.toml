@@ -8,3 +8,4 @@ bevy = "0.10.1"
 bevy_tileset = { version = "0.7.0", features = ["auto-tile"] }
 partial-min-max = "0.4.0"
 rand = "0.8.5"
+ron = "0.8.0"

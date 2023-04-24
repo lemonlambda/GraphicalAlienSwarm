@@ -114,6 +114,7 @@ dependencies = [
  "bevy_tileset",
  "partial-min-max",
  "rand",
+ "ron",
 ]
 
 [[package]]
