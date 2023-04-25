@@ -111,6 +111,7 @@ name = "alien_swarm"
 version = "0.1.0"
 dependencies = [
  "bevy",
+ "bevy_ecs_tilemap",
  "bevy_tileset",
  "partial-min-max",
  "rand",
@@ -467,6 +468,17 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn 1.0.109",
+]
+
+[[package]]
+name = "bevy_ecs_tilemap"
+version = "0.10.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ac3f6d777dfdc74d24d63ecafaf31628377d2f96bbeeb0012040001a9cb8d442"
+dependencies = [
+ "bevy",
+ "log",
+ "regex",
 ]
 
 [[package]]
