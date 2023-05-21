@@ -4,15 +4,10 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+seq-macro = "0.3.3"
 bevy = "0.10.1"
 bevy_ecs_tilemap = "0.10.0"
 bitfield-derive = "0.2.1"
 partial-min-max = "0.4.0"
 rand = "0.8.5"
 ron = "0.8.0"
-
-[build-dependencies]
-anyhow = "1.0.71"
-seq-macro = "0.3.3"
-png = "0.17.8"
-image = "0.24.6"
