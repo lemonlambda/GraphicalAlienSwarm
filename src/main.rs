@@ -3,7 +3,7 @@
 
 use bevy::prelude::*;
 use bevy_ecs_tilemap::TilemapPlugin;
-use rand::Rng;
+
 
 mod camera;
 use camera::move_camera;
@@ -26,7 +26,7 @@ pub struct CameraComponent {
     pub held_down_mult: f32,
 }
 
-fn startup(mut commands: Commands, asset_server: Res<AssetServer>) {
+fn startup(mut commands: Commands, _asset_server: Res<AssetServer>) {
     commands.spawn((
         Camera2dBundle::default(),
         CameraComponent {

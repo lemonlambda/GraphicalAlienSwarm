@@ -14,7 +14,7 @@ macro_rules! probable {
     ($($prob:literal => $expr:expr),+) => {{
         let mut rng = rand::thread_rng();
         let rand = rng.gen_range(1..=100);
-        let mut ranges = {
+        let ranges = {
             let mut temp = vec![];
             let mut count = 0;
             $(
