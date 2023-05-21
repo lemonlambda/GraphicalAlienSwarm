@@ -1,4 +1,5 @@
 mod random_tile;
+use random_tile::*;
 
 use bevy::asset::FileAssetIo;
 use bevy::prelude::*;
@@ -62,7 +63,7 @@ fn startup(
                 .spawn((
                     TileBundle {
                         position: tile_pos,
-                        texture_index: TileTextureIndex(1),
+                        texture_index: TileTextureIndex(surface_tile() as u32),
                         tilemap_id: TilemapId(tilemap_entity),
                         ..Default::default()
                     },
