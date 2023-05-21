@@ -1,4 +1,5 @@
 #![feature(exclusive_range_pattern)]
+#![feature(macro_metavar_expr)]
 
 use bevy::prelude::*;
 use bevy_ecs_tilemap::TilemapPlugin;
