@@ -33,7 +33,7 @@ macro_rules! probable {
     }}
 }
 
-fn surface_tile() -> TileId {
+pub fn surface_tile() -> TileId {
     probable!(
         15 => TileId::Air,
         15 => TileId::Rock1,
