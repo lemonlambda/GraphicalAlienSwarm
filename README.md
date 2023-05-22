@@ -7,5 +7,5 @@ There are many planned features that will be outlined in the table below.
 
 | Feature | Completed? | Description |
 | ------- | ---------- | ----------- |
-| Potions | [ ] | Potion brewing as an in-depth system that will require a lot of knowledge to do |
+| Potions | [x] | Potion brewing as an in-depth system that will require a lot of knowledge to do |
 | Resources | [ ] | Resources that all have many uses. An example of some resources that are planned are `TODO` |
