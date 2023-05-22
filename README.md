@@ -7,6 +7,6 @@ There are many planned features that will be outlined in the table below.
 
 | Feature | Completed? | Description |
 | ------- | ---------- | ----------- |
-| Potions | X | Potion brewing as an in-depth system that will require a lot of knowledge to do. |
-| Resources | X | Resources that all have many uses. An example of some resources that are planned are `TODO`. |
-| Critters | X | Alien critters that will attack your group of humans. Alien critters that will aid your group of humans. |
+| Potions | **X** | Potion brewing as an in-depth system that will require a lot of knowledge to do. |
+| Resources | **X** | Resources that all have many uses. An example of some resources that are planned are `TODO`. |
+| Critters | **X** | Alien critters that will attack your group of humans. Alien critters that will aid your group of humans. |
