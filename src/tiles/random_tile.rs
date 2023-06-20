@@ -49,6 +49,7 @@ pub fn generate_layer(
     array_texture_loader: &Res<ArrayTextureLoader>,
     tile_storage: &mut TileStorage,
     map_size: TilemapSize,
+    z: f32,
 ) -> Vec<TileType> {
     // Get a list of all the game textures
     let texture_handle = seq!(N in 1..=15 {
@@ -108,7 +109,7 @@ pub fn generate_layer(
         storage: tile_storage.clone(),
         texture: TilemapTexture::Vector(texture_handle.clone()),
         tile_size,
-        transform: get_tilemap_center_transform(&map_size, &grid_size, &map_type, 0.0),
+        transform: get_tilemap_center_transform(&map_size, &grid_size, &map_type, z),
         ..Default::default()
     });
 

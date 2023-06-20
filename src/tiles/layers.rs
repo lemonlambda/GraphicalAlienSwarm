@@ -8,6 +8,8 @@ use crate::tiles::TileId;
 
 pub struct LayerManager {
     layers: Vec<(TileStorage, Vec<TileType>)>,
+    layer_idx: usize,
+    max_z: f32,
     map_size: TilemapSize,
 }
 
@@ -15,6 +17,8 @@ impl LayerManager {
     pub fn new((x, y): (u32, u32)) -> Self {
         Self {
             layers: vec![],
+            layer_idx: 0,
+            max_z: 0,
             map_size: TilemapSize { x, y },
         }
     }
@@ -35,7 +39,9 @@ impl LayerManager {
             &array_texture_loader,
             &mut layer,
             self.map_size.clone(),
+            self.max_z,
         );
+        self.max_z += 1.0;
         self.layers.push((layer, tile_types));
     }
 }
