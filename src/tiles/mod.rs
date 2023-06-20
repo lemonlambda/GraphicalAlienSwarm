@@ -1,6 +1,8 @@
 mod random_tile;
 use random_tile::*;
 
+mod layers;
+
 use crate::tiles::LayerType;
 use bevy::prelude::*;
 use bevy_ecs_tilemap::prelude::*;
@@ -15,15 +17,18 @@ impl Plugin for SetupTilemapPlugin {
     }
 }
 
+/// TODO: Find out what the hell this is for.
 #[repr(u8)]
+#[derive(Clone, Copy)]
 pub enum TileTypes {
     Air,
     Dirt,
     Rock,
 }
 
-#[derive(Default, BitFields, Component)]
-struct TileType {
+/// Bit Field for Autotiling
+#[derive(Default, Copy, Clone, BitFields, Component)]
+pub struct TileType {
     #[bitfield(n @ "1:0" as bool "North")]
     #[bitfield(e @ "2:1" as bool "East")]
     #[bitfield(s @ "3:2" as bool "South")]
@@ -34,6 +39,26 @@ struct TileType {
     #[bitfield(left @ "31:24" as u8 "Left")]
     _tt: u32,
     idx: u16,
+    tile_id: TileId,
+}
+
+seq!(N in 1..=15 {
+    /// Representative Struct for TileId's to make
+    /// it easier to to pick a tilewithout knowing the Id before hand
+    #[repr(u8)]
+    #[non_exhaustive]
+    #[derive(Copy, Clone)]
+    pub enum TileId {
+        Air,
+        Dirt,
+        #(Rock~N,)*
+    }
+});
+
+impl Default for TileId {
+    fn default() -> Self {
+        Self::Air
+    }
 }
 
 fn startup(
@@ -42,16 +67,7 @@ fn startup(
     array_texture_loader: Res<ArrayTextureLoader>,
 ) {
     let map_size = TilemapSize { x: 128, y: 128 };
-    let mut layer1 = TileStorage::empty(map_size);
     let mut layer2 = TileStorage::empty(map_size);
-    generate_layer(
-        LayerType::Surface,
-        &mut commands,
-        &asset_server,
-        &array_texture_loader,
-        &mut layer1,
-        map_size.clone(),
-    );
     generate_layer(
         LayerType::Surface,
         &mut commands,

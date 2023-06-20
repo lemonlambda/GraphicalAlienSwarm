@@ -1,18 +1,9 @@
+use crate::tiles::TileId;
 use crate::tiles::TileType;
 use bevy::prelude::*;
 use bevy_ecs_tilemap::prelude::*;
 use rand::Rng;
 use seq_macro::seq;
-
-seq!(N in 1..=15 {
-    #[repr(u8)]
-    #[non_exhaustive]
-    pub enum TileId {
-        Air,
-        Dirt,
-        #(Rock~N,)*
-    }
-});
 
 macro_rules! probable {
     ($($prob:literal => $expr:expr),+) => {{
@@ -58,7 +49,8 @@ pub fn generate_layer(
     array_texture_loader: &Res<ArrayTextureLoader>,
     tile_storage: &mut TileStorage,
     map_size: TilemapSize,
-) {
+) -> Vec<TileType> {
+    // Get a list of all the game textures
     let texture_handle = seq!(N in 1..=15 {
         vec![
             "Air.png",
@@ -70,37 +62,45 @@ pub fn generate_layer(
     .map(|x| asset_server.load(x))
     .collect::<Vec<_>>();
 
+    // Create an empty Entity to use
     let tilemap_entity = commands.spawn_empty().id();
+    let mut tile_types = vec![];
 
     for x in 0..map_size.x {
         for y in 0..map_size.y {
             let tile_pos = TilePos { x, y };
+            // Generate a random `TileId`
+            let tile_id = match layer_type {
+                LayerType::Surface => surface_tile(),
+                _ => surface_tile(),
+            };
+
             let tile_entity = commands
-                .spawn((
-                    TileBundle {
-                        position: tile_pos,
-                        texture_index: TileTextureIndex(match layer_type {
-                            LayerType::Surface => surface_tile(),
-                            _ => surface_tile(),
-                        } as u32),
-                        tilemap_id: TilemapId(tilemap_entity),
-                        ..Default::default()
-                    },
-                    TileType {
-                        _tt: 0,
-                        // Modified Cantor's Formula
-                        idx: (((x + y) * (x + y + 1) + (x * y)) / 2) as u16,
-                    },
-                ))
+                .spawn(TileBundle {
+                    position: tile_pos,
+                    texture_index: TileTextureIndex(tile_id as u32),
+                    tilemap_id: TilemapId(tilemap_entity),
+                    ..Default::default()
+                })
                 .id();
+            tile_types.push(TileType {
+                _tt: 0,
+                // Cantor Pairing Function
+                // Note: xor(brl(x), brr(y)) is faster but results in bigger numbers
+                // Maybe rotate in the future?
+                idx: ((x + y) * (x + y + 1) / 2 + y) as u16,
+                tile_id,
+            });
             tile_storage.set(&tile_pos, tile_entity);
         }
     }
 
+    // Set up values to use in creating the tilemap
     let tile_size = TilemapTileSize { x: 32.0, y: 32.0 };
     let grid_size = tile_size.into();
     let map_type = TilemapType::default();
 
+    // Creates a tilemap
     commands.entity(tilemap_entity).insert(TilemapBundle {
         grid_size,
         map_type,
@@ -112,9 +112,12 @@ pub fn generate_layer(
         ..Default::default()
     });
 
+    // Create a texture for the tile map
     array_texture_loader.add(TilemapArrayTexture {
         texture: TilemapTexture::Vector(texture_handle),
         tile_size,
         ..Default::default()
     });
+
+    return tile_types;
 }
