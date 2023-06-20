@@ -3,6 +3,7 @@ use random_tile::*;
 
 mod layers;
 
+use crate::tiles::layers::LayerManager;
 use crate::tiles::LayerType;
 use bevy::prelude::*;
 use bevy_ecs_tilemap::prelude::*;
@@ -66,14 +67,24 @@ fn startup(
     asset_server: Res<AssetServer>,
     array_texture_loader: Res<ArrayTextureLoader>,
 ) {
-    let map_size = TilemapSize { x: 128, y: 128 };
-    let mut layer2 = TileStorage::empty(map_size);
-    generate_layer(
+    let mut layer_manager = LayerManager::new((128, 128));
+    // Testing out 3 layers
+    layer_manager.new_layer(
         LayerType::Surface,
         &mut commands,
         &asset_server,
         &array_texture_loader,
-        &mut layer2,
-        map_size,
+    );
+    layer_manager.new_layer(
+        LayerType::Surface,
+        &mut commands,
+        &asset_server,
+        &array_texture_loader,
+    );
+    layer_manager.new_layer(
+        LayerType::Surface,
+        &mut commands,
+        &asset_server,
+        &array_texture_loader,
     );
 }
