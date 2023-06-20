@@ -18,7 +18,11 @@ impl LayerManager {
         Self {
             layers: vec![],
             layer_idx: 0,
+<<<<<<< HEAD
             max_z: 0,
+=======
+            max_z: 0.0,
+>>>>>>> cfaa614 (Using Z)
             map_size: TilemapSize { x, y },
         }
     }
