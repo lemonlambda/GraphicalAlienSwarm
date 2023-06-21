@@ -4,6 +4,7 @@
 use bevy::prelude::*;
 use bevy_ecs_tilemap::TilemapPlugin;
 
+mod math_helpers;
 
 mod camera;
 use camera::move_camera;
