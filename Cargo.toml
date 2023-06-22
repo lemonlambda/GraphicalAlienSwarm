@@ -12,3 +12,6 @@ partial-min-max = "0.4.0"
 rand = "0.8.5"
 ron = "0.8.0"
 random = "0.14.0"
+bevy_framepace = "0.12.1"
+bevy_tweening = "0.7.0"
+bevy_screen_diags = { git = "https://github.com/LemonjamesD/bevy_screen_diags_0.10.git", version = "0.5.2" }
