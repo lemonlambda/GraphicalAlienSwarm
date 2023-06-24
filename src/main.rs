@@ -7,6 +7,8 @@ use bevy_ecs_tilemap::TilemapPlugin;
 use bevy_framepace::*;
 use bevy_screen_diags::{extract_fps, ScreenDiagsPlugin};
 
+mod clamped;
+
 mod camera;
 use camera::move_camera;
 
