@@ -5,7 +5,8 @@ use bevy::diagnostic::Diagnostics;
 use bevy::prelude::*;
 use bevy_ecs_tilemap::TilemapPlugin;
 use bevy_framepace::*;
-use bevy_screen_diags::{extract_fps, ScreenDiagsPlugin};
+use bevy_screen_diags::{ScreenDiagsPlugin, FrameCounter};
+use std::fmt::Write;
 
 mod clamped;
 
@@ -52,15 +53,24 @@ fn startup(
         font_size: 30.0,
         color: Color::WHITE,
     };
-    commands.spawn(TextBundle {
-        text: Text::from_section("0fps", style).with_alignment(TextAlignment::Left),
-        ..Default::default()
-    });
+    commands.spawn(
+        TextBundle::from_sections([
+             TextSection::from_style(TextStyle {
+                font: asset_server.load("fonts/FiraCode-Regular.ttf"),
+                font_size: 20.0,
+                color: Color::WHITE,
+            }),
+        ]),
+    );
 }
 
-fn update_fps_counter(mut text: Query<&mut Text>, diagnostics: Res<Diagnostics>) {
+fn update_fps_counter(
+    mut text: Query<&mut Text>, 
+    diagnostics: Res<Diagnostics>,
+    frame_counter: Res<FrameCounter>
+) {
     let mut text = text.single_mut();
-    if let Some(fps) = extract_fps(&diagnostics) {
-        text.sections[0].value = format!("{}fps", fps.round());
-    }
+    let value = &mut text.sections[0].value;
+    value.clear();
+    write!(value, "{:.0}fps", frame_counter.0).unwrap();
 }

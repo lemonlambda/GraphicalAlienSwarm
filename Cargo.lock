@@ -479,9 +479,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_ecs_tilemap"
-version = "0.10.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ac3f6d777dfdc74d24d63ecafaf31628377d2f96bbeeb0012040001a9cb8d442"
+version = "0.10.1"
+source = "git+https://github.com/LemonjamesD/bevy_ecs_tilemap_0.10.1#d4d317a146baefdde2dc26ab5348cb78bba3147e"
 dependencies = [
  "bevy",
  "log",
@@ -500,9 +499,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_framepace"
-version = "0.12.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a1825c5a485aa2a2ffd91cc1faa1f4d621c804a893ead88cafedbe1ed6c51d34"
+version = "0.12.2"
+source = "git+https://github.com/LemonjamesD/bevy_framepace_0.10.1#9f351c58e98adae0cb2011c26106cace675e0f4f"
 dependencies = [
  "bevy",
  "spin_sleep",
@@ -807,8 +805,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_screen_diags"
-version = "0.5.2"
-source = "git+https://github.com/LemonjamesD/bevy_screen_diags_0.10.git#c897e57e661f8619f9bfa958ec972e85b0a4c985"
+version = "0.5.4"
+source = "git+https://github.com/LemonjamesD/bevy_screen_diags_0.10#a275526fa0d0aacc344fa7bc7c63e4024858d772"
 dependencies = [
  "bevy",
 ]
@@ -905,9 +903,8 @@ dependencies = [
 
 [[package]]
 name = "bevy_tweening"
-version = "0.7.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7adaf4294484caea3707d280198ad06dd53b9e9adbb0816618c7edce11c990d6"
+version = "0.7.1"
+source = "git+https://github.com/LemonjamesD/bevy_tweening_0.10.1#7e97ecf2928827ea338db86e0222cb95132150c7"
 dependencies = [
  "bevy",
  "interpolation",

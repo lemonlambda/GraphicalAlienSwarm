@@ -6,14 +6,14 @@ edition = "2021"
 [dependencies]
 seq-macro = "0.3.3"
 bevy = "0.10.1"
-bevy_ecs_tilemap = "0.10.0"
+bevy_ecs_tilemap = { git = "https://github.com/LemonjamesD/bevy_ecs_tilemap_0.10.1", version = "0.10.1" }
 bitfield-derive = "0.2.1"
 partial-min-max = "0.4.0"
 rand = "0.8.5"
 ron = "0.8.0"
 random = "0.14.0"
-bevy_framepace = "0.12.1"
-bevy_tweening = "0.7.0"
-bevy_screen_diags = { git = "https://github.com/LemonjamesD/bevy_screen_diags_0.10.git", version = "0.5.2" }
+bevy_framepace = { git = "https://github.com/LemonjamesD/bevy_framepace_0.10.1", version = "0.12.2" }
+bevy_tweening = { git = "https://github.com/LemonjamesD/bevy_tweening_0.10.1", version = "0.7.1" }
 paste = "1.0.12"
 num-traits = "0.2.15"
+bevy_screen_diags = { git = "https://github.com/LemonjamesD/bevy_screen_diags_0.10", version = "0.5.4" }
