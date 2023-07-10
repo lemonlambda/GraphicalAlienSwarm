@@ -1,0 +1,10 @@
+# Dirt Tile
+---
+  name: "{{variant.name}} Rose"
+  tileId: "t-1"
+  weight: 10.0 # In grams
+  defaultItemTexture: "items/{{variant}}_rose.png"
+  defaultTileTexture: "items/{{variant}}_rose.png"
+  canPlace: false
+  drops: 
+    - "i-1"

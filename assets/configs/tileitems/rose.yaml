@@ -1,0 +1,23 @@
+# Rose TileItem
+---
+  name: "{{variant.name}} Rose"
+  tileId: "t-3-{{variant}}"
+  itemId: "i-3-{{variant}}"
+  weight: 10.0 # In grams
+  defaultItemTexture: "items/{{variant}}_rose.png"
+  defaultTileTexture: "tiles/{{variant}}_rose.png"
+  variants:
+    - red:
+        name: Red
+    - blue:
+        name: Blue
+    - white:
+        name: White
+    - purple:
+        name: Purple
+    - yellow:
+        name: Yellow
+    - green:
+        name: Green
+  canPlantOn:
+    - "t-0"
