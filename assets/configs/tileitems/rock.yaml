@@ -1,0 +1,26 @@
+---
+  name: "{{variant.name}} Rock"
+  category: "Earth"
+  tileId: "t-2{{variant}}"
+  itemId: "i-2{{variant}}"
+  tileTexture: "tiles/{{variant}}_rock.png"
+  itemTexture: "item/{{variant}}_rock.png"
+  variants:
+    - granite:
+        default: true
+        name: "Soft"
+        weight: 20.0
+        toughness: 5.0
+  tileDrops:
+    - "i-4{{variant}}"
+  autotile: # If the tile is autotiling
+    - tile: "t-default" # What tile to autotile with
+      default: "tiles/rock/{{variant}}/{{variant}}_rock.png"
+      nw: "tiles/rock/{{variant}}/{{variant}}_rock_NW.png"
+      n: "tiles/rock/{{variant}}/{{variant}}_rock_N.png"
+      ne: "tiles/rock/{{variant}}/{{variant}}_rock_NE.png"
+      w: "tiles/rock/{{variant}}/{{variant}}_rock_W.png"
+      e: "tiles/rock/{{variant}}/{{variant}}_rock_E.png"
+      sw: "tiles/rock/{{variant}}/{{variant}}_rock_SW.png"
+      s: "tiles/rock/{{variant}}/{{variant}}_rock_S.png"
+      se: "tiles/rock/{{variant}}/{{variant}}_rock_SE.png"

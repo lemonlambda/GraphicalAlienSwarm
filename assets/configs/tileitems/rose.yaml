@@ -1,6 +1,6 @@
 ---
   name: "{{variant.name}} Rose"
-  category: "Plant"
+  category: "Nature"
   tileId: "t-4{{variant}}"
   itemId: "i-4{{variant}}"
   tileTexture: "tiles/{{variant}}_rose.png"
@@ -9,11 +9,11 @@
     - red:
         default: true
         name: "Red"
-        weight: 40.0
+        weight: 1.0
         toughness: 0.0
     - blue:
         name: "Blue"
-        weight: 40.0
+        weight: 1.0
         toughness: 0.0
   tileDrops:
     - "i-4{{variant}}"

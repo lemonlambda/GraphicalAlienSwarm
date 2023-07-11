@@ -1,0 +1,15 @@
+---
+  name: "{{variant.name}} Dirt"
+  category: "Earth"
+  tileId: "t-3{{variant}}"
+  itemId: "i-3{{variant}}"
+  tileTexture: "tiles/{{variant}}_dirt.png"
+  itemTexture: "item/{{variant}}_dirt.png"
+  variants:
+    - soft:
+        default: true
+        name: "Soft"
+        weight: 20.0
+        toughness: 0.0
+  tileDrops:
+    - "i-4{{variant}}"

@@ -8,10 +8,10 @@
   itemTexture: "tiles/air.png" # Default Item texture
   variants:
     - default:
-      name: "Default"
-      default: true
+        name: "Default"
+        default: true
     - expressive:
-        name: "Expressive Default" # Overrides the default name
+        name: "Expressive Default" # Name for the variant
         tileId: "t-defaultExpressive" # Overrides the default TileId
         itemId: "i-defaultExpressive" # Id for the item
         weight: 0.0 # How much the weight of the item is
@@ -22,3 +22,14 @@
           - "i-defaultExpressive"
   tileDrops: # What the tile would drop
     - "i-default"
+  autotile: # If the tile is autotiling
+    - tile: "t-default" # What tile to autotile with
+      default: "tiles/air.png"
+      nw: "tiles/air.png"
+      n: "tiles/air.png"
+      ne: "tiles/air.png"
+      w: "tiles/air.png"
+      e: "tiles/air.png"
+      sw: "tiles/air.png"
+      s: "tiles/air.png"
+      se: "tiles/air.png"

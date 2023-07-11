@@ -1,0 +1,10 @@
+---
+  name: "Air"
+  category: "None"
+  tileId: "t-1"
+  tileTexture: "tiles/air.png"
+  variants:
+    - default:
+        default: true
+        weight: 0.0
+        toughness: -1.0
