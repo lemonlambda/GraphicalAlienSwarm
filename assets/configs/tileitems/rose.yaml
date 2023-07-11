@@ -1,23 +1,19 @@
-# Rose TileItem
 ---
   name: "{{variant.name}} Rose"
-  tileId: "t-3-{{variant}}"
-  itemId: "i-3-{{variant}}"
-  weight: 10.0 # In grams
-  defaultItemTexture: "items/{{variant}}_rose.png"
-  defaultTileTexture: "tiles/{{variant}}_rose.png"
+  category: "Plant"
+  tileId: "t-4{{variant}}"
+  itemId: "i-4{{variant}}"
+  tileTexture: "tiles/{{variant}}_rose.png"
+  itemTexture: "item/{{variant}}_rose.png"
   variants:
     - red:
-        name: Red
+        default: true
+        name: "Red"
+        weight: 40.0
+        toughness: 0.0
     - blue:
-        name: Blue
-    - white:
-        name: White
-    - purple:
-        name: Purple
-    - yellow:
-        name: Yellow
-    - green:
-        name: Green
-  canPlantOn:
-    - "t-0"
+        name: "Blue"
+        weight: 40.0
+        toughness: 0.0
+  tileDrops:
+    - "i-4{{variant}}"

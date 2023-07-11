@@ -1,19 +1,21 @@
 # Fully filled out config for items/tiles/tileitems
 ---
   name: "Default" # Name for the Tile/Item
+  category: "None"
   tileId: "t-default" # Id for the tile
   itemId: "i-default" # Id for the item
-  weight: 0.0 # How much the weight of the item is
-  toughness: 0.0 # Minimum tool strength to break
   tileTexture: "tiles/air.png" # Default Tile texture
   itemTexture: "tiles/air.png" # Default Item texture
   variants:
+    - default:
+      name: "Default"
+      default: true
     - expressive:
         name: "Expressive Default" # Overrides the default name
         tileId: "t-defaultExpressive" # Overrides the default TileId
         itemId: "i-defaultExpressive" # Id for the item
-        weight: 0.0 # Override the how much the weight of the item is
-        toughness: 0.0 # Override the minimum tool strength to break
+        weight: 0.0 # How much the weight of the item is
+        toughness: 0.0 # Minimum tool strength to break
         tileTexture: "tiles/air.png" # Override default Tile texture
         itemTexture: "tiles/air.png" # Override default Item texture
         tileDrops: # Overrides the tilesDrops

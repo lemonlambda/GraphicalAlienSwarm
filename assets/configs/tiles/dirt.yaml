@@ -1,10 +1,15 @@
-# Dirt Tile
 ---
-  name: "{{variant.name}} Rose"
-  tileId: "t-1"
-  weight: 10.0 # In grams
-  defaultItemTexture: "items/{{variant}}_rose.png"
-  defaultTileTexture: "items/{{variant}}_rose.png"
-  canPlace: false
-  drops: 
-    - "i-1"
+  name: "{{variant.name}} Dirt"
+  category: "Plant"
+  tileId: "t-4{{variant}}"
+  itemId: "i-4{{variant}}"
+  tileTexture: "tiles/{{variant}}_rose.png"
+  itemTexture: "item/{{variant}}_rose.png"
+  variants:
+    - soft:
+        default: true
+        name: "Soft"
+        weight: 40000.0
+        toughness: 1.0
+  tileDrops:
+    - "i-4{{variant}}"
