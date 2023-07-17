@@ -1,0 +1,10 @@
+[package]
+name = "graphical_alien_swarm_proc_macros"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+regex = "1.9.1"
