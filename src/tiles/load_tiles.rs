@@ -4,9 +4,9 @@ use std::iter::Map;
 
 /// First iteration for parsing the YAML file
 /// Gets put into [[Tile]] and/or [[Item]] structs later on
+#[tileitem]
 #[derive(Serialize, Deserialize)]
 #[serde(rename = "camelCase")]
-#[tileitem]
 pub struct TileItemRaw {
     name: String,
     category: String,
@@ -14,6 +14,8 @@ pub struct TileItemRaw {
 
 /// Internal data for variants
 #[tileitem]
+#[derive(Serialize, Deserialize)]
+#[serde(rename = "camelCase")]
 pub struct VariantInternal {
     name: String,
     default: Option<bool>,
