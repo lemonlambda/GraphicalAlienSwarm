@@ -45,8 +45,8 @@ pub enum LayerType {
 pub fn generate_layer(
     layer_type: LayerType,
     commands: &mut Commands,
-    asset_server: &Res<AssetServer>,
-    array_texture_loader: &Res<ArrayTextureLoader>,
+    asset_server: &AssetServer,
+    array_texture_loader: &ArrayTextureLoader,
     tile_storage: &mut TileStorage,
     map_size: TilemapSize,
     z: f32,

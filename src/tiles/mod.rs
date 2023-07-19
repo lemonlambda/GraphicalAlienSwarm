@@ -2,6 +2,7 @@ mod random_tile;
 use random_tile::*;
 
 mod layers;
+mod load_tiles;
 
 use crate::tiles::layers::LayerManager;
 use crate::tiles::LayerType;
@@ -67,24 +68,9 @@ fn startup(
     asset_server: Res<AssetServer>,
     array_texture_loader: Res<ArrayTextureLoader>,
 ) {
-    let mut layer_manager = LayerManager::new((128, 128));
-    // Testing out 3 layers
-    layer_manager.new_layer(
-        LayerType::Surface,
-        &mut commands,
-        &asset_server,
-        &array_texture_loader,
-    );
-    layer_manager.new_layer(
-        LayerType::Surface,
-        &mut commands,
-        &asset_server,
-        &array_texture_loader,
-    );
-    layer_manager.new_layer(
-        LayerType::Surface,
-        &mut commands,
-        &asset_server,
-        &array_texture_loader,
-    );
+    let mut layer_manager = LayerManager::new((128, 128), &asset_server, &array_texture_loader); // Testing out 3 layers
+    layer_manager
+        .new_layer(LayerType::Surface, &mut commands)
+        .new_layer(LayerType::Surface, &mut commands)
+        .new_layer(LayerType::Surface, &mut commands);
 }

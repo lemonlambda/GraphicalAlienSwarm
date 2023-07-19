@@ -1,24 +1,50 @@
 use proc_macro::TokenStream;
-use regex::Regex;
+use quote::quote;
+use syn::{parse_macro_input, Data, DeriveInput, Fields};
+
+macro_rules! tileitem_push {
+    ($var:expr, $($name:ident: $item_type:ty),*) => {
+        $(
+            let parsed = ::syn::Field {
+                attrs: vec![],
+                vis: ::syn::Visibility::Inherited,
+                mutability: ::syn::FieldMutability::None,
+                ident: Some(::syn::Ident::new(stringify!($name), ::proc_macro2::Span::call_site())),
+                colon_token: Some(::syn::parse_str(":").unwrap()),
+                ty: ::syn::parse_str(stringify!($item_type)).unwrap()
+            };
+            $var.push(parsed);
+        )*
+    }
+}
 
 /// I just need to insert these a lot and it's a big block
 #[proc_macro_attribute]
-pub fn tileitem(attr: TokenStream, item: TokenStream) -> TokenStream {
-    let attr_string = &attr.to_string();
-    let attr = if attr.to_string().is_empty() {
-        vec!["VariantInternal", "AutotileInternal"]
-    } else {
-        let re = Regex::new(r#"(,)|(, )"#).expect("Failed to create regex");
-        re.split(attr_string).collect::<Vec<&str>>()
+pub fn tileitem(_attr: TokenStream, item: TokenStream) -> TokenStream {
+    let mut input = parse_macro_input!(item as DeriveInput);
+    let Data::Struct(internal_data) = &mut input.data else {
+        return r#"compile_error!("`#[tileitem]` can only be applied to structs")"#
+            .parse()
+            .unwrap();
     };
-    item.to_string().replace("}", r#"
+    let Fields::Named(fields) = &mut internal_data.fields else {
+        return r#"compile_error!("`#[tileitem]` can only be applied to non empty/tuple structs")"#
+            .parse()
+            .unwrap();
+    };
+    let real_fields = &mut fields.named;
+    tileitem_push!(
+        real_fields,
         tile_id: Option<String>,
         item_id: Option<String>,
         tile_texture: Option<String>,
         item_texture: Option<String>,
-        variants: Vec<::std::iter::Map<String, VariantInternal>>,
+        variants: Vec<::std::collections::HashMap<String, VariantInternal>>,
         tile_drops: Option<Vec<String>>,
         autotile: Option<Vec<AutotileInternal>>
-    }"#).replace("VariantInternal", attr[0]).replace("AutotileInternal", attr[1]).parse().unwrap()
-    
+    );
+
+    TokenStream::from(quote! {
+        #input
+    })
 }

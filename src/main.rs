@@ -1,11 +1,11 @@
-#![feature(exclusive_range_pattern)]
 #![feature(macro_metavar_expr)]
+#![deny(missing_docs)]
 
 use bevy::diagnostic::Diagnostics;
 use bevy::prelude::*;
 use bevy_ecs_tilemap::TilemapPlugin;
 use bevy_framepace::*;
-use bevy_screen_diags::{ScreenDiagsPlugin, FrameCounter};
+use bevy_screen_diags::{FrameCounter, ScreenDiagsPlugin};
 use std::fmt::Write;
 
 mod clamped;
@@ -53,21 +53,19 @@ fn startup(
         font_size: 30.0,
         color: Color::WHITE,
     };
-    commands.spawn(
-        TextBundle::from_sections([
-             TextSection::from_style(TextStyle {
-                font: asset_server.load("fonts/FiraCode-Regular.ttf"),
-                font_size: 20.0,
-                color: Color::WHITE,
-            }),
-        ]),
-    );
+    commands.spawn(TextBundle::from_sections([TextSection::from_style(
+        TextStyle {
+            font: asset_server.load("fonts/FiraCode-Regular.ttf"),
+            font_size: 20.0,
+            color: Color::WHITE,
+        },
+    )]));
 }
 
 fn update_fps_counter(
-    mut text: Query<&mut Text>, 
+    mut text: Query<&mut Text>,
     diagnostics: Res<Diagnostics>,
-    frame_counter: Res<FrameCounter>
+    frame_counter: Res<FrameCounter>,
 ) {
     let mut text = text.single_mut();
     let value = &mut text.sections[0].value;

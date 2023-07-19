@@ -17,13 +17,18 @@
       target = "x86_64-unknown-linux-gnu";
       toolchain = with fenix.packages.${system}; combine [
         latest.cargo
-        minimal.rustc
+        latest.rustc
         targets.${target}.latest.rust-std
       ];
       pkgs = import nixpkgs {
-         inherit system;
+        overlays = [
+          (_: super: let pkgs = fenix.inputs.nixpkgs.legacyPackages.${super.system}; in fenix.overlays.default pkgs pkgs)
+        ];
+        inherit system;
       };
       buildInputs = with pkgs; [
+        rust-analyzer-nightly
+        cargo-expand
         pkgsCross.mingwW64.buildPackages.gcc
         glibc_multi
         udev alsa-lib vulkan-loader

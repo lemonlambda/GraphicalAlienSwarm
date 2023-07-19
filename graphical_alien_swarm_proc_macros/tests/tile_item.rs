@@ -4,7 +4,9 @@ pub fn tile_item_test() {
 
     struct VariantInternal {}
     struct AutotileInternal {}
-    
+
     #[tileitem(VariantInternal, AutotileInternal)]
-    struct Cool {}
+    struct Cool {
+        cool: String,
+    }
 }

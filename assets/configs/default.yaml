@@ -10,6 +10,8 @@
     - default:
         name: "Default"
         default: true
+        weight: 0.0 # How much the weight of the item is
+        toughness: 0.0 # Minimum tool strength to break
     - expressive:
         name: "Expressive Default" # Name for the variant
         tileId: "t-defaultExpressive" # Overrides the default TileId
@@ -20,6 +22,17 @@
         itemTexture: "tiles/air.png" # Override default Item texture
         tileDrops: # Overrides the tilesDrops
           - "i-defaultExpressive"
+        autotile: # Override the autotiling
+            - tile: "t-default" # What tile to autotile with
+              default: "tiles/air.png"
+              nw: "tiles/air.png"
+              n: "tiles/air.png"
+              ne: "tiles/air.png"
+              w: "tiles/air.png"
+              e: "tiles/air.png"
+              sw: "tiles/air.png"
+              s: "tiles/air.png"
+              se: "tiles/air.png"  
   tileDrops: # What the tile would drop
     - "i-default"
   autotile: # If the tile is autotiling
