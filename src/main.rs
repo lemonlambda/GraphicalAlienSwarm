@@ -1,5 +1,5 @@
 #![feature(macro_metavar_expr)]
-#![deny(missing_docs)]
+#![warn(missing_docs)]
 
 use bevy::diagnostic::Diagnostics;
 use bevy::prelude::*;
@@ -29,8 +29,10 @@ fn main() {
         .run();
 }
 
+/// A struct to get track the camera's "velocity"
 #[derive(Component)]
 pub struct CameraComponent {
+    /// Multiplier to the speed that the camera is moving at
     pub held_down_mult: f32,
 }
 
