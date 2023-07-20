@@ -3,10 +3,14 @@
 
 use bevy::diagnostic::Diagnostics;
 use bevy::prelude::*;
+use bevy::time::common_conditions::on_timer;
+use bevy::utils::Duration;
 use bevy_ecs_tilemap::TilemapPlugin;
 use bevy_framepace::*;
 use bevy_screen_diags::{FrameCounter, ScreenDiagsPlugin};
+use bytesize::ByteSize;
 use std::fmt::Write;
+use sysinfo::SystemExt;
 
 mod clamped;
 
@@ -25,7 +29,7 @@ fn main() {
         .add_plugin(ScreenDiagsPlugin)
         .add_startup_system(startup)
         .add_system(move_camera)
-        .add_system(update_fps_counter)
+        .add_system(update_fps_counter.run_if(on_timer(Duration::from_secs(1))))
         .run();
 }
 
@@ -74,21 +78,20 @@ fn update_fps_counter(
     value.clear();
     // Get the memory usage of the program
     let (physical, r#virtual) = if let Some(usage) = memory_stats::memory_stats() {
-        (
-            usage.physical_mem.to_string(),
-            usage.virtual_mem.to_string(),
-        )
+        (usage.physical_mem as u64 / 8, usage.virtual_mem as u64 / 8)
     } else {
-        (
-            "Unable to retrieve information".to_string(),
-            "Unable to retrieve information".to_string(),
-        )
+        (0, 0)
     };
+    let total_mem = sysinfo::System::new_all().total_memory();
 
     write!(
         value,
-        "{:.0}fps\nP: {physical}\nV: {virtual}",
-        frame_counter.0
+        "{:.0}fps\nP: {1} / {3} \nV: {2} / {3} | {4:.2}%",
+        frame_counter.0,
+        ByteSize(physical).to_string_as(true),
+        ByteSize(r#virtual).to_string_as(true),
+        ByteSize(total_mem).to_string_as(true),
+        (ByteSize(r#virtual).as_u64() as f32 / total_mem as f32) * 100.0
     )
     .unwrap();
 }
