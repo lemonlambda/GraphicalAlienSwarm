@@ -1,6 +1,7 @@
 #![feature(macro_metavar_expr)]
 #![warn(missing_docs)]
 
+use custom_image_loader::{CustomImageLoaderPlugin, GASImageTextureLoader};
 // Use a custom Tiny Allocator
 use tcmalloc::TCMalloc;
 
@@ -26,11 +27,14 @@ use camera::move_camera;
 mod tiles;
 use tiles::SetupTilemapPlugin;
 
+mod custom_image_loader;
+
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins.set(ImagePlugin::default_nearest()))
         .add_plugin(TilemapPlugin)
         .add_plugin(SetupTilemapPlugin)
+        .add_plugin(CustomImageLoaderPlugin)
         .add_plugin(FramepacePlugin)
         .add_plugin(ScreenDiagsPlugin)
         .add_startup_system(startup)
