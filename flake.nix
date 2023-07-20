@@ -14,7 +14,7 @@
   outputs = {self, nixpkgs, flake-utils, fenix, naersk,  ... }@inputs:
     flake-utils.lib.eachDefaultSystem (system:
     let
-      target = "x86_64-pc-windows-gnu";
+      target = "x86_64-unknown-linux-gnu";
       toolchain = with fenix.packages.${system}; combine [
         latest.cargo
         latest.rustc
@@ -26,6 +26,10 @@
         ];
         inherit system;
       };
+      extraInputs = if target == "x86_64-pc-windows-gnu" then
+        with pkgs; [pkgsCross.mingwW64.windows.mingw_w64_pthreads pkgsCross.mingwW64.windows.pthreads]
+      else 
+        [];
       buildInputs = with pkgs; [
         rust-analyzer-nightly
         cargo-expand
@@ -34,8 +38,8 @@
         udev alsa-lib vulkan-loader
         xorg.libX11 xorg.libXcursor xorg.libXi xorg.libXrandr
         libxkbcommon wayland
-        pkgsCross.mingwW64.windows.mingw_w64_pthreads pkgsCross.mingwW64.windows.pthreads
-      ];
+        gperftools
+      ] ++ extraInputs;
       src = ./.;
       copySources = [
         "graphical_alien_swarm_proc_macros"

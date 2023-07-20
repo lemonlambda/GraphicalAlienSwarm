@@ -1,6 +1,12 @@
 #![feature(macro_metavar_expr)]
 #![warn(missing_docs)]
 
+// Use a custom Tiny Allocator
+use tcmalloc::TCMalloc;
+
+#[global_allocator]
+static GLOBAL: TCMalloc = TCMalloc;
+
 use bevy::diagnostic::Diagnostics;
 use bevy::prelude::*;
 use bevy::time::common_conditions::on_timer;
