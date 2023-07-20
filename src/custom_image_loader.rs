@@ -1,4 +1,4 @@
-//! Ripped straight from https://github.com/bevyengine/bevy/blob/main/crates/bevy_render/src/texture/image_texture_loader.rs#L15C1-L78C2
+//! Ripped straight from https://github.com/bevyengine/bevy/blob/main/crates/bevy_render/src/texture/image_texture_loader.rs
 //! Modified slightly though
 
 use anyhow::Result;
