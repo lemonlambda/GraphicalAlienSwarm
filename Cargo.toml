@@ -20,3 +20,4 @@ num-traits = "0.2.15"
 bevy_screen_diags = { git = "https://github.com/LemonjamesD/bevy_screen_diags_0.10", version = "0.5.4" }
 serde_yaml = "0.9.22"
 serde = { version = "1.0.171", features = ["derive"] }
+memory-stats = "1.1.0"

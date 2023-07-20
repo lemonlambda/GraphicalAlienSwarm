@@ -72,5 +72,23 @@ fn update_fps_counter(
     let mut text = text.single_mut();
     let value = &mut text.sections[0].value;
     value.clear();
-    write!(value, "{:.0}fps", frame_counter.0).unwrap();
+    // Get the memory usage of the program
+    let (physical, r#virtual) = if let Some(usage) = memory_stats::memory_stats() {
+        (
+            usage.physical_mem.to_string(),
+            usage.virtual_mem.to_string(),
+        )
+    } else {
+        (
+            "Unable to retrieve information".to_string(),
+            "Unable to retrieve information".to_string(),
+        )
+    };
+
+    write!(
+        value,
+        "{:.0}fps\nP: {physical}\nV: {virtual}",
+        frame_counter.0
+    )
+    .unwrap();
 }

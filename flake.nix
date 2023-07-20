@@ -14,7 +14,7 @@
   outputs = {self, nixpkgs, flake-utils, fenix, naersk,  ... }@inputs:
     flake-utils.lib.eachDefaultSystem (system:
     let
-      target = "x86_64-unknown-linux-gnu";
+      target = "x86_64-pc-windows-gnu";
       toolchain = with fenix.packages.${system}; combine [
         latest.cargo
         latest.rustc
@@ -34,6 +34,7 @@
         udev alsa-lib vulkan-loader
         xorg.libX11 xorg.libXcursor xorg.libXi xorg.libXrandr
         libxkbcommon wayland
+        pkgsCross.mingwW64.windows.mingw_w64_pthreads pkgsCross.mingwW64.windows.pthreads
       ];
       src = ./.;
       copySources = [
@@ -41,9 +42,9 @@
       ];
       manifest = (pkgs.lib.importTOML ./Cargo.toml).package;
     in {
-      packages.default = self.packages.${system}.packageGame;
+      packages.default = self.packages.${system}.buildGame;
 
-      packages.packageGame = (naersk.lib.${system}.override {
+      packages.buildGame = (naersk.lib.${system}.override {
           cargo = toolchain;
           rustc = toolchain;
         }).buildPackage rec {
@@ -59,14 +60,13 @@
           pkg-config
         ];
 
+        preBuild = ''
+          export CARGO_TARGET_X86_64_PC_WINDOWS_GNU_RUSTFLAGS="-C link-args=''$(echo $NIX_LDFLAGS | tr ' ' '\n' | grep -- '^-L' | tr '\n' ' ')"
+          export NIX_LDFLAGS=
+        '';
 
         LD_LIBRARY_PATH = nixpkgs.lib.makeLibraryPath buildInputs;
         CARGO_BUILD_TARGET = target;
-        CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER =
-          let
-            inherit (pkgs.pkgsCross.aarch64-multiplatform.stdenv) cc;
-          in
-          "${cc}/bin/${cc.targetPrefix}cc";
       };
 
       devShells.${system}.default = pkgs.mkShell {
@@ -75,11 +75,6 @@
 
         LD_LIBRARY_PATH = nixpkgs.lib.makeLibraryPath buildInputs;
         CARGO_BUILD_TARGET = target;
-        CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER =
-          let
-            inherit (pkgs.pkgsCross.aarch64-multiplatform.stdenv) cc;
-          in
-          "${cc}/bin/${cc.targetPrefix}cc";
       };
   });
 }
