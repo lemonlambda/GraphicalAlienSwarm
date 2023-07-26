@@ -16,6 +16,7 @@ use bevy_ecs_tilemap::TilemapPlugin;
 use bevy_framepace::*;
 use bevy_screen_diags::{FrameCounter, ScreenDiagsPlugin};
 use bytesize::ByteSize;
+use lazy_static::lazy_static;
 use std::fmt::Write;
 use sysinfo::SystemExt;
 
@@ -78,6 +79,10 @@ fn startup(
     )]));
 }
 
+lazy_static! {
+    static ref SYSTEM: sysinfo::System = sysinfo::System::new_all();
+}
+
 fn update_fps_counter(
     mut text: Query<&mut Text>,
     diagnostics: Res<Diagnostics>,
@@ -87,21 +92,30 @@ fn update_fps_counter(
     let value = &mut text.sections[0].value;
     value.clear();
     // Get the memory usage of the program
-    let (physical, r#virtual) = if let Some(usage) = memory_stats::memory_stats() {
-        (usage.physical_mem as u64 / 8, usage.virtual_mem as u64 / 8)
+    let (physical, r#virtual_old) = if let Some(usage) = memory_stats::memory_stats() {
+        (
+            usage.physical_mem as u64 >> 10,
+            usage.virtual_mem as u64 >> 10,
+        )
     } else {
         (0, 0)
     };
-    let total_mem = sysinfo::System::new_all().total_memory();
+
+    let ram_total = SYSTEM.total_memory();
+    let swap_total = SYSTEM.total_swap();
+    let physical = ByteSize::kb(physical);
+    let r#virtual = ByteSize::kb(r#virtual_old);
 
     write!(
         value,
-        "{:.0}fps\nP: {1} / {3} \nV: {2} / {3} | {4:.2}%",
+        "{:.0}fps\nMem: {} / {} {:.2}%\nSwap: {} / {} | {:.2}%",
         frame_counter.0,
-        ByteSize(physical).to_string_as(true),
-        ByteSize(r#virtual).to_string_as(true),
-        ByteSize(total_mem).to_string_as(true),
-        (ByteSize(r#virtual).as_u64() as f32 / total_mem as f32) * 100.0
+        physical.to_string_as(true),
+        ByteSize(ram_total).to_string_as(true),
+        (physical.as_u64() as f32 / ram_total as f32) * 100.0,
+        r#virtual.to_string_as(true),
+        ByteSize(swap_total).to_string_as(true),
+        (r#virtual.as_u64() as f32 / swap_total as f32) * 100.0
     )
     .unwrap();
 }

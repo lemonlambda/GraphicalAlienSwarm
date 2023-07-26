@@ -119,6 +119,7 @@ dependencies = [
  "bitfield-derive",
  "bytesize",
  "graphical_alien_swarm_proc_macros",
+ "lazy_static",
  "memory-stats",
  "num-traits",
  "partial-min-max",
