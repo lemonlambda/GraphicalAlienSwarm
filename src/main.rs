@@ -1,7 +1,6 @@
 #![feature(macro_metavar_expr)]
 #![warn(missing_docs)]
 
-use custom_image_loader::{CustomImageLoaderPlugin, GASImageTextureLoader};
 // Use a custom Tiny Allocator
 use tcmalloc::TCMalloc;
 
@@ -29,19 +28,36 @@ mod tiles;
 use tiles::SetupTilemapPlugin;
 
 mod custom_image_loader;
+use custom_image_loader::{CustomImageLoaderPlugin, GASImageTextureLoader};
 
 fn main() {
     App::new()
-        .add_plugins(DefaultPlugins.set(ImagePlugin::default_nearest()))
-        .add_plugin(TilemapPlugin)
-        .add_plugin(SetupTilemapPlugin)
-        .add_plugin(CustomImageLoaderPlugin)
-        .add_plugin(FramepacePlugin)
-        .add_plugin(ScreenDiagsPlugin)
-        .add_startup_system(startup)
-        .add_system(move_camera)
-        .add_system(update_fps_counter.run_if(on_timer(Duration::from_secs(1))))
+        .add_plugin(ExternalPlugins)
+        .add_plugin(CorePlugins)
         .run();
+}
+
+pub struct CorePlugins;
+
+impl Plugin for CorePlugins {
+    fn build(&self, app: &mut App) {
+        app.add_plugin(SetupTilemapPlugin)
+            .add_plugin(CustomImageLoaderPlugin)
+            .add_startup_system(startup)
+            .add_system(move_camera)
+            .add_system(update_fps_counter.run_if(on_timer(Duration::from_secs(1))));
+    }
+}
+
+pub struct ExternalPlugins;
+
+impl Plugin for ExternalPlugins {
+    fn build(&self, app: &mut App) {
+        app.add_plugins(DefaultPlugins.set(ImagePlugin::default_nearest()))
+            .add_plugin(TilemapPlugin)
+            .add_plugin(FramepacePlugin)
+            .add_plugin(ScreenDiagsPlugin);
+    }
 }
 
 /// A struct to get track the camera's "velocity"

@@ -51,11 +51,8 @@ impl AssetLoader for GASImageTextureLoader {
 
             // Return missing texture instead
             if dyn_img.is_err() {
-                let ext = Path::new("./assets/textures/missing_texture.png")
-                    .extension()
-                    .unwrap()
-                    .to_str()
-                    .unwrap();
+                let load_context = Path::new("./assets/textures/missing_texture.png");
+                let ext = load_context.extension().unwrap().to_str().unwrap();
 
                 let dyn_img = Image::from_buffer(
                     bytes,
@@ -65,10 +62,7 @@ impl AssetLoader for GASImageTextureLoader {
                 )
                 .map_err(|err| GASFileTextureError {
                     error: err,
-                    path: format!(
-                        "{}",
-                        Path::new("./assets/textures/missing_texture.png").display()
-                    ),
+                    path: format!("{}", load_context.display()),
                 })?;
 
                 load_context.set_default_asset(LoadedAsset::new(dyn_img));
