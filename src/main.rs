@@ -7,13 +7,13 @@ use tcmalloc::TCMalloc;
 #[global_allocator]
 static GLOBAL: TCMalloc = TCMalloc;
 
-use bevy::diagnostic::Diagnostics;
+use bevy::diagnostic::{Diagnostics, DiagnosticsStore};
 use bevy::prelude::*;
 use bevy::time::common_conditions::on_timer;
 use bevy::utils::Duration;
 use bevy_ecs_tilemap::TilemapPlugin;
 use bevy_framepace::*;
-use bevy_screen_diags::{FrameCounter, ScreenDiagsPlugin};
+use bevy_screen_diags::ScreenDiagsPlugin;
 use bytesize::ByteSize;
 use lazy_static::lazy_static;
 use std::fmt::Write;
@@ -32,31 +32,34 @@ use custom_image_loader::{CustomImageLoaderPlugin, GASImageTextureLoader};
 
 fn main() {
     App::new()
-        .add_plugin(ExternalPlugins)
-        .add_plugin(CorePlugins)
+        .add_plugins((SharedPlugins, ExternalPlugins, CorePlugins))
         .run();
 }
 
-pub struct CorePlugins;
+pub struct SharedPlugins;
+impl Plugin for SharedPlugins {
+    fn build(&self, app: &mut App) {
+        app.add_plugins(
+            DefaultPlugins
+                .set(ImagePlugin::default_nearest())
+                .add_after::<ImagePlugin, _>(CustomImageLoaderPlugin),
+        );
+    }
+}
 
+pub struct CorePlugins;
 impl Plugin for CorePlugins {
     fn build(&self, app: &mut App) {
-        app.add_plugin(SetupTilemapPlugin)
-            .add_plugin(CustomImageLoaderPlugin)
-            .add_startup_system(startup)
-            .add_system(move_camera)
-            .add_system(update_fps_counter.run_if(on_timer(Duration::from_secs(1))));
+        app.add_plugins(SetupTilemapPlugin)
+            .add_systems(Startup, (startup))
+            .add_systems(Update, (move_camera, update_fps_counter));
     }
 }
 
 pub struct ExternalPlugins;
-
 impl Plugin for ExternalPlugins {
     fn build(&self, app: &mut App) {
-        app.add_plugins(DefaultPlugins.set(ImagePlugin::default_nearest()))
-            .add_plugin(TilemapPlugin)
-            .add_plugin(FramepacePlugin)
-            .add_plugin(ScreenDiagsPlugin);
+        app.add_plugins((TilemapPlugin, FramepacePlugin, ScreenDiagsPlugin));
     }
 }
 
@@ -101,8 +104,8 @@ lazy_static! {
 
 fn update_fps_counter(
     mut text: Query<&mut Text>,
-    diagnostics: Res<Diagnostics>,
-    frame_counter: Res<FrameCounter>,
+    diagnostics: Res<DiagnosticsStore>,
+    // frame_counter: Res<FrameCounter>, // WARN: This is broken until https://github.com/jomala/bevy_screen_diags/pull/19 gets merged
 ) {
     let mut text = text.single_mut();
     let value = &mut text.sections[0].value;
@@ -125,7 +128,8 @@ fn update_fps_counter(
     write!(
         value,
         "{:.0}fps\nMem: {} / {} {:.2}%\nSwap: {} / {} | {:.2}%",
-        frame_counter.0,
+        // frame_counter.0,
+        0.0,
         physical.to_string_as(true),
         ByteSize(ram_total).to_string_as(true),
         (physical.as_u64() as f32 / ram_total as f32) * 100.0,

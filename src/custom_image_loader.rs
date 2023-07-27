@@ -2,7 +2,9 @@
 //! Modified slightly though
 
 use anyhow::Result;
-use bevy::prelude::AddAsset;
+use bevy::ecs::world::Mut;
+use bevy::log::info;
+use bevy::prelude::*;
 use bevy::{
     asset::{AssetLoader, LoadContext, LoadedAsset},
     prelude::{App, FromWorld, Image, Plugin, World},
@@ -19,8 +21,14 @@ pub struct CustomImageLoaderPlugin;
 
 impl Plugin for CustomImageLoaderPlugin {
     fn build(&self, app: &mut App) {
-        app.init_asset_loader::<GASImageTextureLoader>();
+        app.add_systems(PostStartup, add_asset_loader);
     }
+}
+
+fn add_asset_loader(world: &mut World) {
+    world.resource_scope(|world, mut asset_server: Mut<AssetServer>| {
+        asset_server.add_loader(GASImageTextureLoader::from_world(world));
+    });
 }
 
 #[derive(Clone)]
@@ -28,9 +36,7 @@ pub struct GASImageTextureLoader {
     supported_compressed_formats: CompressedImageFormats,
 }
 
-const FILE_EXTENSIONS: &[&str] = &[
-    "basis", "bmp", "png", "dds", "tga", "jpg", "jpeg", "ktx2", "webp", "pam", "pbm", "pgm", "ppm",
-];
+const FILE_EXTENSIONS: &[&str] = &["png"];
 
 impl AssetLoader for GASImageTextureLoader {
     fn load<'a>(
@@ -38,6 +44,7 @@ impl AssetLoader for GASImageTextureLoader {
         bytes: &'a [u8],
         load_context: &'a mut LoadContext,
     ) -> BoxedFuture<'a, Result<()>> {
+        info!("Using that GAS!!");
         Box::pin(async move {
             // use the file extension for the image type
             let ext = load_context.path().extension().unwrap().to_str().unwrap();
@@ -51,8 +58,8 @@ impl AssetLoader for GASImageTextureLoader {
 
             // Return missing texture instead
             if dyn_img.is_err() {
-                let load_context = Path::new("./assets/textures/missing_texture.png");
-                let ext = load_context.extension().unwrap().to_str().unwrap();
+                let path = Path::new("./assets/textures/missing_texture.png");
+                let ext = path.extension().unwrap().to_str().unwrap();
 
                 let dyn_img = Image::from_buffer(
                     bytes,
@@ -62,7 +69,7 @@ impl AssetLoader for GASImageTextureLoader {
                 )
                 .map_err(|err| GASFileTextureError {
                     error: err,
-                    path: format!("{}", load_context.display()),
+                    path: format!("{}", path.display()),
                 })?;
 
                 load_context.set_default_asset(LoadedAsset::new(dyn_img));

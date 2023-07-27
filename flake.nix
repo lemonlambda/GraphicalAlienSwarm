@@ -56,6 +56,7 @@
         pname = manifest.name;
         version = manifest.version;
         gameName = "${pname}-${version}";
+        gitAllRefs = true;
 
         inherit src copySources buildInputs;
         
@@ -74,6 +75,7 @@
       };
 
       devShells.${system}.default = pkgs.mkShell {
+        gitAllRefs = true;
         inherit src copySources buildInputs;
         nativeBuildInputs = with pkgs; [ toolchain ];
 
