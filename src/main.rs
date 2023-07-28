@@ -7,9 +7,8 @@ use tcmalloc::TCMalloc;
 #[global_allocator]
 static GLOBAL: TCMalloc = TCMalloc;
 
-use bevy::diagnostic::{DiagnosticsStore};
+use bevy::diagnostic::DiagnosticsStore;
 use bevy::prelude::*;
-
 
 use bevy_ecs_tilemap::TilemapPlugin;
 use bevy_framepace::*;
@@ -28,7 +27,7 @@ mod tiles;
 use tiles::SetupTilemapPlugin;
 
 mod custom_image_loader;
-use custom_image_loader::{CustomImageLoaderPlugin};
+use custom_image_loader::CustomImageLoaderPlugin;
 
 fn main() {
     App::new()

@@ -5,7 +5,6 @@ use super::generate_layer;
 use super::random_tile::LayerType;
 use super::TileType;
 
-
 pub struct LayerManager<'a> {
     layers: Vec<(TileStorage, Vec<TileType>)>,
     layer_idx: usize,
@@ -27,7 +26,7 @@ impl<'a> LayerManager<'a> {
             max_z: 0.0,
             map_size: TilemapSize { x, y },
             asset_server,
-            array_texture_loader
+            array_texture_loader,
         }
     }
 
