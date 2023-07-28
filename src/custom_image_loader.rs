@@ -10,7 +10,7 @@ use bevy::{
     prelude::{App, FromWorld, Image, Plugin, World},
     render::{
         renderer::RenderDevice,
-        texture::{CompressedImageFormats, FileTextureError, ImageType, TextureError},
+        texture::{CompressedImageFormats, ImageType, TextureError},
     },
     utils::BoxedFuture,
 };
@@ -26,7 +26,7 @@ impl Plugin for CustomImageLoaderPlugin {
 }
 
 fn add_asset_loader(world: &mut World) {
-    world.resource_scope(|world, mut asset_server: Mut<AssetServer>| {
+    world.resource_scope(|world, asset_server: Mut<AssetServer>| {
         asset_server.add_loader(GASImageTextureLoader::from_world(world));
     });
 }

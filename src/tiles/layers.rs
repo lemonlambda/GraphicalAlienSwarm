@@ -4,7 +4,7 @@ use bevy_ecs_tilemap::prelude::*;
 use super::generate_layer;
 use super::random_tile::LayerType;
 use super::TileType;
-use crate::tiles::TileId;
+
 
 pub struct LayerManager<'a> {
     layers: Vec<(TileStorage, Vec<TileType>)>,

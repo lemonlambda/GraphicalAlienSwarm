@@ -7,10 +7,10 @@ use tcmalloc::TCMalloc;
 #[global_allocator]
 static GLOBAL: TCMalloc = TCMalloc;
 
-use bevy::diagnostic::{Diagnostics, DiagnosticsStore};
+use bevy::diagnostic::{DiagnosticsStore};
 use bevy::prelude::*;
-use bevy::time::common_conditions::on_timer;
-use bevy::utils::Duration;
+
+
 use bevy_ecs_tilemap::TilemapPlugin;
 use bevy_framepace::*;
 use bevy_screen_diags::ScreenDiagsPlugin;
@@ -28,7 +28,7 @@ mod tiles;
 use tiles::SetupTilemapPlugin;
 
 mod custom_image_loader;
-use custom_image_loader::{CustomImageLoaderPlugin, GASImageTextureLoader};
+use custom_image_loader::{CustomImageLoaderPlugin};
 
 fn main() {
     App::new()
@@ -51,7 +51,7 @@ pub struct CorePlugins;
 impl Plugin for CorePlugins {
     fn build(&self, app: &mut App) {
         app.add_plugins(SetupTilemapPlugin)
-            .add_systems(Startup, (startup))
+            .add_systems(Startup, startup)
             .add_systems(Update, (move_camera, update_fps_counter));
     }
 }
@@ -84,7 +84,7 @@ fn startup(
         },
     ));
     let font = asset_server.load("fonts/FiraCode-Regular.ttf");
-    let style = TextStyle {
+    let _style = TextStyle {
         font: font.clone(),
         font_size: 30.0,
         color: Color::WHITE,
@@ -104,7 +104,7 @@ lazy_static! {
 
 fn update_fps_counter(
     mut text: Query<&mut Text>,
-    diagnostics: Res<DiagnosticsStore>,
+    _diagnostics: Res<DiagnosticsStore>,
     // frame_counter: Res<FrameCounter>, // WARN: This is broken until https://github.com/jomala/bevy_screen_diags/pull/19 gets merged
 ) {
     let mut text = text.single_mut();

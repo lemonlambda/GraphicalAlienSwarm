@@ -1,6 +1,6 @@
 use graphical_alien_swarm_proc_macros::tileitem;
 use serde::{Deserialize, Serialize};
-use std::iter::Map;
+
 
 /// First iteration for parsing the YAML file
 /// Gets put into [[Tile]] and/or [[Item]] structs later on
