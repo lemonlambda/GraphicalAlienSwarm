@@ -35,6 +35,8 @@ fn main() {
         .run();
 }
 
+/// For plugins that are both Core or External but need to be
+/// intertwined with each other for whatever reason
 pub struct SharedPlugins;
 impl Plugin for SharedPlugins {
     fn build(&self, app: &mut App) {
@@ -46,6 +48,7 @@ impl Plugin for SharedPlugins {
     }
 }
 
+/// Core plugins are plugins that I have made in the actual game itself
 pub struct CorePlugins;
 impl Plugin for CorePlugins {
     fn build(&self, app: &mut App) {
@@ -55,6 +58,7 @@ impl Plugin for CorePlugins {
     }
 }
 
+/// External plugins are plugins from external libraries or bevy itself
 pub struct ExternalPlugins;
 impl Plugin for ExternalPlugins {
     fn build(&self, app: &mut App) {
