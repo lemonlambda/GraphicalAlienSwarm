@@ -15,13 +15,14 @@ pub struct SetupTilemapPlugin;
 
 impl Plugin for SetupTilemapPlugin {
     fn build(&self, app: &mut App) {
-        app.add_startup_system(startup);
+        app.add_systems(Startup, startup);
     }
 }
 
 /// TODO: Find out what the hell this is for.
 #[repr(u8)]
 #[derive(Clone, Copy)]
+#[allow(dead_code)]
 pub enum TileTypes {
     Air,
     Dirt,
@@ -30,6 +31,7 @@ pub enum TileTypes {
 
 /// Bit Field for Autotiling
 #[derive(Default, Copy, Clone, BitFields, Component)]
+#[allow(dead_code)]
 pub struct TileType {
     #[bitfield(n @ "1:0" as bool "North")]
     #[bitfield(e @ "2:1" as bool "East")]
@@ -50,6 +52,7 @@ seq!(N in 1..=15 {
     #[repr(u8)]
     #[non_exhaustive]
     #[derive(Copy, Clone)]
+    #[allow(dead_code)]
     pub enum TileId {
         Air,
         Dirt,

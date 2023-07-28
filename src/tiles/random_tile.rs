@@ -15,6 +15,7 @@ macro_rules! probable {
             $(
                 count += 1;
                 temp.push(count..(count + $prob));
+                #[allow(unused_assignments)]
                 count += $prob;
             )+
             temp
@@ -73,7 +74,6 @@ pub fn generate_layer(
             // Generate a random `TileId`
             let tile_id = match layer_type {
                 LayerType::Surface => surface_tile(),
-                _ => surface_tile(),
             };
 
             let tile_entity = commands

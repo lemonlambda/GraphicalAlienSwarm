@@ -5,6 +5,7 @@ use super::generate_layer;
 use super::random_tile::LayerType;
 use super::TileType;
 
+#[allow(dead_code)]
 pub struct LayerManager<'a> {
     layers: Vec<(TileStorage, Vec<TileType>)>,
     layer_idx: usize,

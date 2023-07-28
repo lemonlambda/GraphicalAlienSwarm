@@ -1,4 +1,8 @@
+//! Graphical Alien Swarm a game about being in space
+//! and living and doing stuff, not sure yet
+
 #![feature(macro_metavar_expr)]
+#![feature(stmt_expr_attributes)]
 #![warn(missing_docs)]
 
 // Use a custom Tiny Allocator

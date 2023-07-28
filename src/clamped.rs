@@ -8,6 +8,7 @@ pub struct Clamp<T> {
     pub value: T,
 }
 
+#[allow(dead_code)]
 impl<T> Clamp<T> {
     pub fn new(min: T, max: T, value: T) -> Self {
         Self { min, max, value }
