@@ -5,6 +5,7 @@ on:
     paths:
       - "src"
       - "graphical_alien_swarm_proc_macros"
+      - ".github/workflows/docs.yml"
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
@@ -36,7 +37,7 @@ jobs:
     - name: Deploy Documentation
       uses: peaceiris/actions-gh-pages@v3
       with:
-        deploy_key: ${{ secrets.PERSONAL_TOKEN }}
+        github_token: ${{ secrets.PERSONAL_TOKEN }}
         publish_branch: gh-pages
         publish_dir: ./target/doc
         keep_files: true
