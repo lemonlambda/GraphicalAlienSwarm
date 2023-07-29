@@ -30,7 +30,7 @@ jobs:
     - name: Use gpg format git
       run: git config --global --unset gpg.format 
     - name: Add signing key
-      run: git config --global user.signingkey "${{ secrets.gpg }}"
+      run: git config --global user.signingkey "${{ secrets.GPG_ID }}"
     - name: Sign commits
       run: git config --global commit.gpgsign true
     - name: Add changes
