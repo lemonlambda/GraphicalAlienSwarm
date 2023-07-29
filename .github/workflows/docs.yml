@@ -31,13 +31,8 @@ jobs:
          passphrase: ${{ secrets.GPG_PASSPHRASE }}
          git_user_signingkey: true
          git_commit_gpgsign: true
-    - name: Tell git who I am
-      run: |
-        git config --global user.email "lemonjameslem@protonmail.com"
-        git config --global user.name "LemonjamesD"
-    - name: Add changes
-      run: git add .
     - name: Commit changes
-      run: git commit -S -m "Generated Docs"
-    - name: Push changes
-      run: git push origin HEAD:main
+      run: |
+        git add .
+        git commit -S -m "Generated Docs"
+        git push
