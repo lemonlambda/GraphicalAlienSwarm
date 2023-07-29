@@ -22,11 +22,11 @@ jobs:
       run: cargo doc --no-deps
     - name: Add Docs
       run: mv ./target/doc/alien_swarm ./docs
-    - name: Configure GPG Key
-      run: |
-        echo -n "$GPG_SIGNING_KEY" | base64 --decode | gpg --import
+    - name: Import GPG Key
+      uses: crazy-max/ghaction-import-gpg@v1
       env:
-        GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
+         GPG_PRIVATE_KEY: ${{ secrets.GPG_SIGNING_KEY }}
+         PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
     - name: Use gpg format git
       run: git config --global --unset gpg.format 
     - name: Add signing key
