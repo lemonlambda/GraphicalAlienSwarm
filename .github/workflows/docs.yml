@@ -22,6 +22,8 @@ jobs:
       run: cargo doc --no-deps
     - name: Add Docs
       run: mv ./target/doc/alien_swarm ./docs
+    - name: Authenticate git
+      run: git config --global --unset gpg.format && git config --global user.signingkey "${{ secrets.gpg }}" && git config --global commit.gpgsign true
     - name: Add changes
       run: git add .
     - name: Commit changes
