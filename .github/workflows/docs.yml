@@ -17,6 +17,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Dependencies
-      run: apt-get install g++ pkg-config libx11-dev libasound2-dev libudev-dev
+      run: sudo apt-get install g++ pkg-config libx11-dev libasound2-dev libudev-dev
     - name: Docs
       run: cargo doc
