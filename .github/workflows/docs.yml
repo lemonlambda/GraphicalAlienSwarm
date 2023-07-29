@@ -20,3 +20,5 @@ jobs:
       run: sudo apt-get install g++ pkg-config libx11-dev libasound2-dev libudev-dev
     - name: Docs
       run: cargo doc --no-deps
+    - name: Add Docs
+      run: mv /target/x86_64-unknown-linux-gnu/doc/alien_swarm /docs
