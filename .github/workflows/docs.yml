@@ -31,6 +31,7 @@ jobs:
          passphrase: ${{ secrets.GPG_PASSPHRASE }}
          git_user_signingkey: true
          git_commit_gpgsign: true
+         trust_level: 5
     - name: Commit changes
       run: |
         git add .
