@@ -21,9 +21,9 @@ jobs:
     - name: Docs
       run: cargo doc --no-deps
     - name: ls
-      run: ls target
+      run: ls target/doc
     - name: Add Docs
-      run: mv /target/doc/alien_swarm /docs
+      run: mv /target/doc /docs
     - name: Add changes
       run: git add .
     - name: Commit changes
