@@ -24,9 +24,7 @@ jobs:
     - name: Dependencies
       run: sudo apt-get install g++ pkg-config libx11-dev libasound2-dev libudev-dev
     - name: Docs
-      run: cargo doc --no-deps
-    - name: Add Docs
-      run: mv ./target/doc/alien_swarm ./docs
+      run: cargo doc --all --no-deps
     - name: Import GPG Key
       uses: crazy-max/ghaction-import-gpg@v5
       with:
