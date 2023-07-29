@@ -1,3 +1,5 @@
+[![Docs](https://github.com/LemonjamesD/GraphicalAlienSwarm/actions/workflows/docs.yml/badge.svg)](https://github.com/LemonjamesD/GraphicalAlienSwarm/actions/workflows/docs.yml)
+
 # Graphical Alien Swarm (placeholder name)
 Graphical Alien Swarm will be a game similar to Dwarf Fortress and a Tower Defense.
 Graphical Alien Swarm is a colony simulator centered around a group of humans traveling to an alien planet filled with rich resources.
