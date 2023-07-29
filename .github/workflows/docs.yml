@@ -22,3 +22,9 @@ jobs:
       run: cargo doc --no-deps
     - name: Add Docs
       run: mv /target/x86_64-unknown-linux-gnu/doc/alien_swarm /docs
+    - name: Add changes
+      run: git add .
+    - name: Commit changes
+      run: git commit -m "Generated Docs"
+    - name: Push changes
+      run: git push origin HEAD:main
