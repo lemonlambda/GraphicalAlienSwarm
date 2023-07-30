@@ -1,0 +1,3 @@
+(function() {var implementors = {
+"alien_swarm":[["impl&lt;T: <a class=\"trait\" href=\"alien_swarm/clamped/trait.HasMinMax.html\" title=\"trait alien_swarm::clamped::HasMinMax\">HasMinMax</a>&lt;T&gt;&gt; <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/convert/trait.From.html\" title=\"trait core::convert::From\">From</a>&lt;T&gt; for <a class=\"struct\" href=\"alien_swarm/clamped/struct.Clamp.html\" title=\"struct alien_swarm::clamped::Clamp\">Clamp</a>&lt;T&gt;"]]
+};if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

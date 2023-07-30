@@ -1,0 +1,3 @@
+(function() {var implementors = {
+"alien_swarm":[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/default/trait.Default.html\" title=\"trait core::default::Default\">Default</a> for <a class=\"enum\" href=\"alien_swarm/tiles/enum.TileId.html\" title=\"enum alien_swarm::tiles::TileId\">TileId</a>"],["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/default/trait.Default.html\" title=\"trait core::default::Default\">Default</a> for <a class=\"struct\" href=\"alien_swarm/tiles/struct.TileType.html\" title=\"struct alien_swarm::tiles::TileType\">TileType</a>"]]
+};if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

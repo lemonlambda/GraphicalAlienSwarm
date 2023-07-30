@@ -1,0 +1,3 @@
+(function() {var implementors = {
+"alien_swarm":[["impl FromWorld for <a class=\"struct\" href=\"alien_swarm/custom_image_loader/struct.GASImageTextureLoader.html\" title=\"struct alien_swarm::custom_image_loader::GASImageTextureLoader\">GASImageTextureLoader</a>"]]
+};if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
