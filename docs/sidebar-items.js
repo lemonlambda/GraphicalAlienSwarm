@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"fn":["main","startup","update_fps_counter"],"mod":["camera","clamped","custom_image_loader","tiles"],"static":["GLOBAL"],"struct":["CameraComponent","CorePlugins","ExternalPlugins","SYSTEM","SharedPlugins"]};

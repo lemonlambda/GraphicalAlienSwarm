@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"macro":["clamp_ops","impl_has_min_max"],"struct":["Clamp"],"trait":["HasMinMax"]};

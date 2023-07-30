@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"struct":["AutotileInternal","Item","Tile","TileItemRaw","VariantInternal"]};
