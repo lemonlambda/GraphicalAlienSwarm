@@ -43,6 +43,7 @@
       src = ./.;
       copySources = [
         "graphical_alien_swarm_proc_macros"
+        "gas_asset_loader"
       ];
       manifest = (pkgs.lib.importTOML ./Cargo.toml).package;
     in {

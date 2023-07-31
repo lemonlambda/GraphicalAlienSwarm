@@ -44,11 +44,10 @@ fn main() {
 pub struct SharedPlugins;
 impl Plugin for SharedPlugins {
     fn build(&self, app: &mut App) {
-        app.add_plugins(
-            DefaultPlugins
-                .set(ImagePlugin::default_nearest())
-                .add_after::<ImagePlugin, _>(CustomImageLoaderPlugin),
-        );
+        app.add_plugins((
+            DefaultPlugins.set(ImagePlugin::default_nearest()),
+            CustomImageLoaderPlugin,
+        ));
     }
 }
 
