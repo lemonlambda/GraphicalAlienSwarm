@@ -6,6 +6,7 @@ on:
       - "src"
       - "graphical_alien_swarm_proc_macros"
       - ".github/workflows/docs.yml"
+      - "gas_asset_loader"
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
