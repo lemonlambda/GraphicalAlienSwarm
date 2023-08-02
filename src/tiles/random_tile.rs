@@ -52,18 +52,6 @@ pub fn generate_layer(
     map_size: TilemapSize,
     z: f32,
 ) -> Vec<TileType> {
-    // Get a list of all the game textures
-    let texture_handle = seq!(N in 1..=15 {
-        vec![
-            "Air.png",
-            "Dirt.png",
-            #(concat!("Rock", N, ".png"),)*
-        ]
-    })
-    .into_iter()
-    .map(|x| asset_server.load(x))
-    .collect::<Vec<_>>();
-
     // Create an empty Entity to use
     let tilemap_entity = commands.spawn_empty().id();
     let mut tile_types = vec![];
