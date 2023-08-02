@@ -30,32 +30,18 @@ use camera::move_camera;
 mod tiles;
 use tiles::SetupTilemapPlugin;
 
-mod custom_image_loader;
-use custom_image_loader::CustomImageLoaderPlugin;
+mod utils;
+use utils::UtilsPlugin;
 
 fn main() {
-    App::new()
-        .add_plugins((SharedPlugins, ExternalPlugins, CorePlugins))
-        .run();
-}
-
-/// For plugins that are both Core or External but need to be
-/// intertwined with each other for whatever reason
-pub struct SharedPlugins;
-impl Plugin for SharedPlugins {
-    fn build(&self, app: &mut App) {
-        app.add_plugins((
-            DefaultPlugins.set(ImagePlugin::default_nearest()),
-            CustomImageLoaderPlugin,
-        ));
-    }
+    App::new().add_plugins((ExternalPlugins, CorePlugins)).run();
 }
 
 /// Core plugins are plugins that I have made in the actual game itself
 pub struct CorePlugins;
 impl Plugin for CorePlugins {
     fn build(&self, app: &mut App) {
-        app.add_plugins(SetupTilemapPlugin)
+        app.add_plugins((SetupTilemapPlugin, UtilsPlugin))
             .add_systems(Startup, startup)
             .add_systems(Update, (move_camera, update_fps_counter));
     }
@@ -65,7 +51,12 @@ impl Plugin for CorePlugins {
 pub struct ExternalPlugins;
 impl Plugin for ExternalPlugins {
     fn build(&self, app: &mut App) {
-        app.add_plugins((TilemapPlugin, FramepacePlugin, ScreenDiagsPlugin));
+        app.add_plugins((
+            DefaultPlugins.set(ImagePlugin::default_nearest()),
+            TilemapPlugin,
+            FramepacePlugin,
+            ScreenDiagsPlugin,
+        ));
     }
 }
 

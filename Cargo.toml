@@ -3,11 +3,26 @@ name = "alien_swarm"
 version = "0.1.0"
 edition = "2021"
 
+[build]
+# WARN: If you're compiling this for whatever reason make sure to change this if you're using sccache
+rustc-wrapper = "/run/media/Programming/CodingShit/Rust/CargoCache"
+[run]
+# WARN: If you're compiling this for whatever reason make sure to change this if you're using sccache
+rustc-wrapper = "/run/media/Programming/CodingShit/Rust/CargoCache"
+
 [profile.dev]
 opt-level = 3
 
 [profile.release]
 lto = "thin"
+strip = true
+opt-level = "z"
+codegen-units = 1
+panic = "abort"
+
+[target.x86_64-unknown-linux-gnu]
+# Faster linker go brrrr
+linker = "mold"
 
 [dependencies]
 # Core
@@ -33,3 +48,4 @@ tcmalloc = "0.3.0"
 anyhow = "1.0.72"
 thiserror = "1.0.43"
 lazy_static = "1.4.0"
+colored = "2.0.4"
