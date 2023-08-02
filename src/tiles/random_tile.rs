@@ -89,6 +89,17 @@ pub fn generate_layer(
     let grid_size = tile_size.into();
     let map_type = TilemapType::default();
 
+    // Get a list of all the game textures
+    let texture_handle = seq!(N in 1..=15 {
+        vec![
+            "textures/tiles/Air.png",
+            "textures/tiles/Dirt.png",
+            #(concat!("Rock", N, ".png"),)*
+        ]
+    })
+    .into_iter()
+    .map(|x| asset_server.load(x))
+    .collect::<Vec<_>>();
     // Creates a tilemap
     commands.entity(tilemap_entity).insert(TilemapBundle {
         grid_size,
