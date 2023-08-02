@@ -39,6 +39,7 @@
         xorg.libX11 xorg.libXcursor xorg.libXi xorg.libXrandr
         libxkbcommon wayland
         gperftools
+        mold
       ] ++ extraInputs;
       src = ./.;
       copySources = [
