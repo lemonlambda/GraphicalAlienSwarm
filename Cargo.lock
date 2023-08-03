@@ -126,6 +126,7 @@ dependencies = [
  "bevy",
  "bevy_ecs_tilemap",
  "bevy_framepace",
+ "bevy_missing_texture",
  "bevy_screen_diags",
  "bitfield-derive",
  "bytesize",
@@ -722,6 +723,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "bevy_missing_texture"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3173e962ad448cf432f3968cab23a75c6471c70c1c91288361d9162db718eacb"
+dependencies = [
+ "bevy",
+]
+
+[[package]]
 name = "bevy_pbr"
 version = "0.11.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -872,7 +882,8 @@ dependencies = [
 [[package]]
 name = "bevy_screen_diags"
 version = "0.6.0"
-source = "git+https://github.com/jespersm/bevy_screen_diags.git?branch=bevy_0.11#61248e6f5af3b544dcbe83debc8bbc9cc87a5110"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e3f146faa1b5a64031e7be98cfbcb7c832adbbcc6808f058cee4b1a98814b7d2"
 dependencies = [
  "bevy",
 ]

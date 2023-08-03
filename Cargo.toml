@@ -21,17 +21,19 @@ codegen-units = 1
 panic = "abort"
 
 [target.x86_64-unknown-linux-gnu]
-# Faster linker go brrrr
-linker = "mold"
+rustflags = [
+  "-C", "link-arg=-fuse-ld=mold",
+]
 
 [dependencies]
 # Core
 graphical_alien_swarm_proc_macros = { path = "./graphical_alien_swarm_proc_macros" }
 # Bevy
 bevy = "0.11"
-bevy_screen_diags = { git = "https://github.com/jespersm/bevy_screen_diags.git", branch = "bevy_0.11" }
+bevy_screen_diags = "0.6.0"
 bevy_ecs_tilemap = "0.11.0"
 bevy_framepace = "0.13.3"
+bevy_missing_texture = "0.1.2"
 # External
 seq-macro = "0.3.3"
 bitfield-derive = "0.2.1"
