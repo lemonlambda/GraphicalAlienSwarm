@@ -1,5 +1,6 @@
 use bevy::prelude::*;
 use bevy_ecs_tilemap::prelude::*;
+use bevy_missing_texture::ReplaceIfMissing;
 
 use super::generate_layer;
 use super::random_tile::LayerType;
@@ -32,11 +33,17 @@ impl<'a> LayerManager<'a> {
     }
 
     /// Creates a new layer in the LayerManager
-    pub fn new_layer(&mut self, layer_type: LayerType, commands: &mut Commands) -> &mut Self {
+    pub fn new_layer(
+        &mut self,
+        layer_type: LayerType,
+        commands: &mut Commands,
+        if_missing: &mut ReplaceIfMissing,
+    ) -> &mut Self {
         let mut layer = TileStorage::empty(self.map_size);
         let tile_types = generate_layer(
             layer_type,
             commands,
+            if_missing,
             self.asset_server,
             self.array_texture_loader,
             &mut layer,

@@ -8,6 +8,7 @@ use crate::tiles::layers::LayerManager;
 use crate::tiles::LayerType;
 use bevy::prelude::*;
 use bevy_ecs_tilemap::prelude::*;
+use bevy_missing_texture::ReplaceIfMissing;
 use bitfield_derive::BitFields;
 use seq_macro::seq;
 
@@ -70,10 +71,11 @@ fn startup(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
     array_texture_loader: Res<ArrayTextureLoader>,
+    mut if_missing: ResMut<ReplaceIfMissing>,
 ) {
     let mut layer_manager = LayerManager::new((128, 128), &asset_server, &array_texture_loader); // Testing out 3 layers
     layer_manager
-        .new_layer(LayerType::Surface, &mut commands)
-        .new_layer(LayerType::Surface, &mut commands)
-        .new_layer(LayerType::Surface, &mut commands);
+        .new_layer(LayerType::Surface, &mut commands, &mut if_missing)
+        .new_layer(LayerType::Surface, &mut commands, &mut if_missing)
+        .new_layer(LayerType::Surface, &mut commands, &mut if_missing);
 }

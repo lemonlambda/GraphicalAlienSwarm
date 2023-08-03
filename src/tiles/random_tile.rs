@@ -2,6 +2,7 @@ use crate::tiles::TileId;
 use crate::tiles::TileType;
 use bevy::prelude::*;
 use bevy_ecs_tilemap::prelude::*;
+use bevy_missing_texture::ReplaceIfMissing;
 use rand::Rng;
 use seq_macro::seq;
 
@@ -42,10 +43,16 @@ pub enum LayerType {
     Surface,
 }
 
+#[derive(Component)]
+pub struct TileImages {
+    vec: Vec<Handle<Image>>,
+}
+
 /// Generates a layer for the game, might be expanded in the future
 pub fn generate_layer(
     layer_type: LayerType,
     commands: &mut Commands,
+    if_missing: &mut ReplaceIfMissing,
     asset_server: &AssetServer,
     array_texture_loader: &ArrayTextureLoader,
     tile_storage: &mut TileStorage,
@@ -94,12 +101,13 @@ pub fn generate_layer(
         vec![
             "textures/tiles/Air.png",
             "textures/tiles/Dirt.png",
-            #(concat!("Rock", N, ".png"),)*
+            #(concat!("textures/tiles/Rock", N, ".png"),)*
         ]
     })
     .into_iter()
     .map(|x| asset_server.load(x))
     .collect::<Vec<_>>();
+
     // Creates a tilemap
     commands.entity(tilemap_entity).insert(TilemapBundle {
         grid_size,
@@ -114,10 +122,14 @@ pub fn generate_layer(
 
     // Create a texture for the tile map
     array_texture_loader.add(TilemapArrayTexture {
-        texture: TilemapTexture::Vector(texture_handle),
+        texture: TilemapTexture::Vector(texture_handle.clone()),
         tile_size,
         ..Default::default()
     });
+
+    for handle in texture_handle.into_iter() {
+        if_missing.push(handle);
+    }
 
     return tile_types;
 }
