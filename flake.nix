@@ -30,6 +30,13 @@
         with pkgs; [pkgsCross.mingwW64.windows.mingw_w64_pthreads pkgsCross.mingwW64.windows.pthreads]
       else 
         [];
+      nativeBuildInputs = with pkgs; [
+        toolchain
+        pkg-config
+        gperftools
+        mold
+        toolchain
+      ];
       buildInputs = with pkgs; [
         rust-analyzer-nightly
         cargo-expand
@@ -38,8 +45,6 @@
         udev alsa-lib vulkan-loader
         xorg.libX11 xorg.libXcursor xorg.libXi xorg.libXrandr
         libxkbcommon wayland
-        gperftools
-        mold
       ] ++ extraInputs;
       src = ./.;
       copySources = [
@@ -60,28 +65,22 @@
         gameName = "${pname}-${version}";
         gitAllRefs = true;
 
-        inherit src copySources buildInputs;
+        inherit src copySources buildInputs nativeBuildInputs;
         
-        nativeBuildInputs = with pkgs; [
-          toolchain
-          pkg-config
-        ];
-
         preBuild = ''
           export CARGO_TARGET_X86_64_PC_WINDOWS_GNU_RUSTFLAGS="-C link-args=''$(echo $NIX_LDFLAGS | tr ' ' '\n' | grep -- '^-L' | tr '\n' ' ')"
           export NIX_LDFLAGS=
         '';
 
-        LD_LIBRARY_PATH = nixpkgs.lib.makeLibraryPath buildInputs;
+        LD_LIBRARY_PATH = "${nixpkgs.lib.makeLibraryPath buildInputs}:${nixpkgs.lib.makeLibraryPath nativeBuildInputs}";
         CARGO_BUILD_TARGET = target;
       };
 
       devShells.${system}.default = pkgs.mkShell {
         gitAllRefs = true;
-        inherit src copySources buildInputs;
-        nativeBuildInputs = with pkgs; [ toolchain ];
+        inherit src copySources buildInputs nativeBuildInputs;
 
-        LD_LIBRARY_PATH = nixpkgs.lib.makeLibraryPath buildInputs;
+        LD_LIBRARY_PATH = "${nixpkgs.lib.makeLibraryPath buildInputs}:${nixpkgs.lib.makeLibraryPath nativeBuildInputs}";
         CARGO_BUILD_TARGET = target;
       };
   });
