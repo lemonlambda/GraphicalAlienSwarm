@@ -16,48 +16,22 @@ use bevy::prelude::*;
 
 use bevy_ecs_tilemap::TilemapPlugin;
 use bevy_framepace::*;
+use bevy_missing_texture::MissingTexturePlugin;
+use bevy_screen_diags::FrameRate;
 use bevy_screen_diags::ScreenDiagsPlugin;
 use bytesize::ByteSize;
 use lazy_static::lazy_static;
 use std::fmt::Write;
 use sysinfo::SystemExt;
 
-mod clamped;
-
 mod camera;
-use camera::move_camera;
-
+mod clamped;
+mod plugin_management;
 mod tiles;
-use tiles::SetupTilemapPlugin;
-
-mod utils;
-use utils::UtilsPlugin;
+use plugin_management::GamePlugins;
 
 fn main() {
-    App::new().add_plugins((ExternalPlugins, CorePlugins)).run();
-}
-
-/// Core plugins are plugins that I have made in the actual game itself
-pub struct CorePlugins;
-impl Plugin for CorePlugins {
-    fn build(&self, app: &mut App) {
-        app.add_plugins((SetupTilemapPlugin, UtilsPlugin))
-            .add_systems(Startup, startup)
-            .add_systems(Update, (move_camera, update_fps_counter));
-    }
-}
-
-/// External plugins are plugins from external libraries or bevy itself
-pub struct ExternalPlugins;
-impl Plugin for ExternalPlugins {
-    fn build(&self, app: &mut App) {
-        app.add_plugins((
-            DefaultPlugins.set(ImagePlugin::default_nearest()),
-            TilemapPlugin,
-            FramepacePlugin,
-            ScreenDiagsPlugin,
-        ));
-    }
+    App::new().add_plugins(GamePlugins).run();
 }
 
 /// A struct to get track the camera's "velocity"
