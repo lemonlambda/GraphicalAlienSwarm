@@ -76,7 +76,7 @@ lazy_static! {
 fn update_fps_counter(
     mut text: Query<&mut Text>,
     _diagnostics: Res<DiagnosticsStore>,
-    // frame_counter: Res<FrameCounter>, // WARN: This is broken until https://github.com/jomala/bevy_screen_diags/pull/19 gets merged
+    frame_counter: Res<FrameRate>, // WARN: This is broken until https://github.com/jomala/bevy_screen_diags/pull/19 gets merged
 ) {
     let mut text = text.single_mut();
     let value = &mut text.sections[0].value;
@@ -99,8 +99,7 @@ fn update_fps_counter(
     write!(
         value,
         "{:.0}fps\nMem: {} / {} {:.2}%\nSwap: {} / {} | {:.2}%",
-        // frame_counter.0,
-        0.0,
+        frame_counter.0,
         physical.to_string_as(true),
         ByteSize(ram_total).to_string_as(true),
         (physical.as_u64() as f32 / ram_total as f32) * 100.0,
