@@ -3,6 +3,7 @@
 
 #![feature(macro_metavar_expr)]
 #![feature(stmt_expr_attributes)]
+#![feature(specialization)]
 #![warn(missing_docs)]
 
 // Use a custom Tiny Allocator
@@ -28,6 +29,7 @@ mod camera;
 mod clamped;
 mod plugin_management;
 mod tiles;
+mod tiles_v2;
 use plugin_management::GamePlugins;
 
 fn main() {
