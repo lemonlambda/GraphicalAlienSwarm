@@ -29,7 +29,7 @@ mod camera;
 mod clamped;
 mod plugin_management;
 mod tiles;
-mod tiles_v2;
+// mod tiles_v2;
 use plugin_management::GamePlugins;
 
 fn main() {
