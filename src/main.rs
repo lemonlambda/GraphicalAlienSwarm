@@ -1,9 +1,7 @@
 //! Graphical Alien Swarm a game about being in space
 //! and living and doing stuff, not sure yet
 
-#![feature(macro_metavar_expr)]
-#![feature(stmt_expr_attributes)]
-#![feature(specialization)]
+#![feature(macro_metavar_expr, stmt_expr_attributes, specialization)]
 #![warn(missing_docs)]
 
 // Use a custom Tiny Allocator
@@ -15,8 +13,11 @@ static GLOBAL: TCMalloc = TCMalloc;
 use bevy::diagnostic::DiagnosticsStore;
 use bevy::prelude::*;
 
+use bevy::render::camera::RenderTarget;
 use bevy_ecs_tilemap::TilemapPlugin;
 use bevy_framepace::*;
+use bevy_magic_light_2d::gi::resource::ComputedTargetSizes;
+use bevy_magic_light_2d::prelude::*;
 use bevy_missing_texture::MissingTexturePlugin;
 use bevy_screen_diags::FrameRate;
 use bevy_screen_diags::ScreenDiagsPlugin;
@@ -43,19 +44,41 @@ pub struct CameraComponent {
     pub held_down_mult: f32,
 }
 
-fn startup(
+fn change_size(mut targets_sizes: ResMut<ComputedTargetSizes>) {
+    targets_sizes.primary_target_usize = (1920, 1080).into();
+}
+
+fn startup_main(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
     mut frame_settings: ResMut<FramepaceSettings>,
+    post_processing_target: Res<PostProcessingTarget>,
 ) {
     frame_settings.limiter = Limiter::Auto;
 
-    commands.spawn((
-        Camera2dBundle::default(),
-        CameraComponent {
-            held_down_mult: 1.0,
-        },
-    ));
+    let render_target = post_processing_target
+        .handles
+        .as_ref()
+        .expect("No post processing target")
+        .1
+        .clone();
+
+    commands
+        .spawn((
+            Camera2dBundle {
+                camera: Camera {
+                    hdr: true,
+                    target: RenderTarget::Image(render_target),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            CameraComponent {
+                held_down_mult: 1.0,
+            },
+            FloorCamera,
+        ))
+        .insert(SpriteCamera);
     let font = asset_server.load("fonts/FiraCode-Regular.ttf");
     let _style = TextStyle {
         font: font.clone(),
@@ -110,4 +133,56 @@ fn update_fps_counter(
         (r#virtual.as_u64() as f32 / swap_total as f32) * 100.0
     )
     .unwrap();
+}
+
+fn spawn_lights(mut commands: Commands) {
+    let occluder_entity = commands
+        .spawn((
+            Transform::from_translation(Vec3::new(0., 0., 0.)),
+            GlobalTransform::default(),
+            Visibility::Visible,
+            ComputedVisibility::default(),
+            LightOccluder2D {
+                h_size: Vec2::new(40.0, 20.0),
+            },
+        ))
+        .id();
+
+    let spawn_light = |cmd: &mut Commands,
+                       x: f32,
+                       y: f32,
+                       name: &'static str,
+                       light_source: OmniLightSource2D| {
+        return cmd
+            .spawn(Name::new(name))
+            .insert(light_source)
+            .insert(SpatialBundle {
+                transform: Transform {
+                    translation: Vec3::new(x, y, 0.0),
+                    ..default()
+                },
+                ..default()
+            })
+            .id();
+    };
+
+    let mut lights = vec![];
+
+    lights.push(spawn_light(
+        &mut commands,
+        -128.,
+        -128.,
+        "left",
+        OmniLightSource2D {
+            intensity: 1.0,
+            color: Color::rgb_u8(255, 0, 0),
+            falloff: Vec3::new(1.5, 10.0, 0.005),
+            ..default()
+        },
+    ));
+
+    commands
+        .spawn(SpatialBundle::default())
+        .insert(Name::new("lights"))
+        .push_children(&lights);
 }

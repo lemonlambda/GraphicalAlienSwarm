@@ -1,14 +1,18 @@
 use bevy::app::PluginGroupBuilder;
+use bevy::ecs::schedule::ScheduleLabel;
 use bevy::prelude::*;
+use bevy::utils::label::DynEq;
 use bevy_ecs_tilemap::TilemapPlugin;
 use bevy_framepace::*;
+use bevy_magic_light_2d::prelude::BevyMagicLight2DPlugin;
 use bevy_missing_texture::MissingTexturePlugin;
 use bevy_screen_diags::ScreenDiagsPlugin;
+use std::hash::Hasher;
 
 use crate::camera::move_camera;
-use crate::startup;
 use crate::tiles::SetupTilemapPlugin;
 use crate::update_fps_counter;
+use crate::{change_size, spawn_lights, startup_main};
 
 pub struct GamePlugins;
 impl Plugin for GamePlugins {
@@ -31,7 +35,8 @@ impl PluginGroup for CorePluginGroup {
 struct CoreSystems;
 impl Plugin for CoreSystems {
     fn build(&self, app: &mut App) {
-        app.add_systems(Startup, startup)
+        app.add_systems(Startup, change_size)
+            .add_systems(Startup, (startup_main, spawn_lights).chain())
             .add_systems(Update, (move_camera, update_fps_counter));
     }
 }
@@ -45,5 +50,6 @@ impl PluginGroup for ExternalPluginGroup {
             .add(TilemapPlugin)
             .add(ScreenDiagsPlugin)
             .add(FramepacePlugin)
+            .add(BevyMagicLight2DPlugin)
     }
 }

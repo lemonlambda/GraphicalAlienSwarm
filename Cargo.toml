@@ -34,6 +34,7 @@ bevy_screen_diags = "0.6.0"
 bevy_ecs_tilemap = "0.11.0"
 bevy_framepace = "0.13.3"
 bevy_missing_texture = "0.1.2"
+bevy_magic_light_2d = { git = "https://github.com/LemonjamesD/bevy-magic-light-2d.git", branch = "LemonjamesD-patch-1", version = "0.4.0" }
 # External
 seq-macro = "0.3.3"
 bitfield-derive = "0.2.1"
