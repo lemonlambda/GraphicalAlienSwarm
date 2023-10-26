@@ -6,9 +6,9 @@ struct Tiles;
 /// Easy way to index tiles
 pub struct TileId<T>(T);
 
-impl<'a, T: PartialEq<&U>, U: PartialEq> PartialEq<U> for TileId<T> {
-    fn eq(&'a self, other: &'a U) -> bool {
-        self.0 == other
+impl<T: PartialEq<U>, U: PartialEq> PartialEq<U> for TileId<T> {
+    fn eq(&self, other: &U) -> bool {
+        self.0 == *other
     }
 }
 
