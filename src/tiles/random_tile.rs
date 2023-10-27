@@ -58,7 +58,7 @@ pub fn generate_layer(
     tile_storage: &mut TileStorage,
     map_size: TilemapSize,
     z: f32,
-) -> Vec<TileType> {
+) -> (Vec<TileType>, Entity) {
     // Create an empty Entity to use
     let tilemap_entity = commands.spawn_empty().id();
     let mut tile_types = vec![];
@@ -109,7 +109,8 @@ pub fn generate_layer(
     .collect::<Vec<_>>();
 
     // Creates a tilemap
-    commands.entity(tilemap_entity).insert(TilemapBundle {
+    let mut binding = commands.entity(tilemap_entity);
+    let tilemap_entity = binding.insert(TilemapBundle {
         grid_size,
         map_type,
         size: map_size,
@@ -117,6 +118,7 @@ pub fn generate_layer(
         texture: TilemapTexture::Vector(texture_handle.clone()),
         tile_size,
         transform: get_tilemap_center_transform(&map_size, &grid_size, &map_type, z),
+        visibility: Visibility::Visible,
         ..Default::default()
     });
 
@@ -131,5 +133,5 @@ pub fn generate_layer(
         if_missing.push(handle);
     }
 
-    return tile_types;
+    return (tile_types, tilemap_entity.id());
 }

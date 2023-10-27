@@ -1,7 +1,7 @@
 use bevy::input::mouse::MouseWheel;
 use bevy::prelude::*;
 
-use crate::CameraComponent;
+use crate::{tiles::layers::LayerManager, CameraComponent};
 
 use partial_min_max::{max, min};
 
@@ -9,6 +9,7 @@ const W: ScanCode = ScanCode(17);
 const S: ScanCode = ScanCode(31);
 const A: ScanCode = ScanCode(30);
 const D: ScanCode = ScanCode(32);
+const E: ScanCode = ScanCode(18);
 
 pub fn move_camera(
     time: Res<Time>,
@@ -54,4 +55,14 @@ pub fn move_camera(
         projection.scale -= ev.y * time.delta_seconds() * 10.0;
     }
     projection.scale = max(0.1, min(2.0, projection.scale));
+}
+
+pub fn move_layer_pos(
+    mut commands: Commands,
+    key: Res<Input<ScanCode>>,
+    mut layer_manager: ResMut<LayerManager>,
+) {
+    if key.pressed(E) {
+        layer_manager.move_down(&mut commands);
+    }
 }

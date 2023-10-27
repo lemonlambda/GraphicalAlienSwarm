@@ -1,14 +1,17 @@
 use bevy::app::PluginGroupBuilder;
 use bevy::prelude::*;
+use bevy::time::common_conditions::*;
 use bevy_ecs_tilemap::TilemapPlugin;
 use bevy_framepace::*;
 use bevy_missing_texture::MissingTexturePlugin;
 use bevy_screen_diags::ScreenDiagsPlugin;
 
-use crate::camera::move_camera;
+use crate::camera::{move_camera, move_layer_pos};
 use crate::startup;
 use crate::tiles::SetupTilemapPlugin;
 use crate::update_fps_counter;
+
+use std::time::Duration;
 
 pub struct GamePlugins;
 impl Plugin for GamePlugins {
@@ -31,8 +34,14 @@ impl PluginGroup for CorePluginGroup {
 struct CoreSystems;
 impl Plugin for CoreSystems {
     fn build(&self, app: &mut App) {
-        app.add_systems(Startup, startup)
-            .add_systems(Update, (move_camera, update_fps_counter));
+        app.add_systems(Startup, startup).add_systems(
+            Update,
+            (
+                move_camera,
+                update_fps_counter,
+                move_layer_pos.run_if(on_timer(Duration::from_millis(500))),
+            ),
+        );
     }
 }
 

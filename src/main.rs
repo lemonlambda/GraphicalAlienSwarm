@@ -7,6 +7,7 @@
 #![warn(missing_docs)]
 
 // Use a custom Tiny Allocator
+extern crate tcmalloc;
 use tcmalloc::TCMalloc;
 
 #[global_allocator]
@@ -25,11 +26,12 @@ use lazy_static::lazy_static;
 use std::fmt::Write;
 use sysinfo::SystemExt;
 
-mod camera;
-mod clamped;
-mod plugin_management;
-mod tiles;
-mod tiles_v2;
+pub mod camera;
+pub mod clamped;
+pub mod plugin_management;
+pub mod tiles;
+pub mod tiles_v2;
+
 use plugin_management::GamePlugins;
 
 fn main() {
