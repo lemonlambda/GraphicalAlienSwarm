@@ -30,7 +30,6 @@ pub mod camera;
 pub mod clamped;
 pub mod plugin_management;
 pub mod tiles;
-pub mod tiles_v2;
 
 use plugin_management::GamePlugins;
 
