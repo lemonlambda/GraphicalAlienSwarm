@@ -58,15 +58,20 @@ impl LayerManager {
     pub fn move_down(&mut self, commands: &mut Commands) -> &mut Self {
         info!("{}", self.layers.len());
         // Filter out the layer to then make it go away
-        self.current_z -= 1.0;
         let layer = self
             .layers
             .iter()
             .filter(|(_, _, _, z)| {
-                info!("{z}, {}", self.current_z);
+                info!("{z}, {}", self.current_z - 1.0);
                 *z == self.current_z
             })
-            .collect::<Vec<_>>()[0];
+            .collect::<Vec<_>>();
+
+        if layer.len() == 0 {
+            return self;
+        }
+        self.current_z -= 1.0;
+        let layer = layer[0];
 
         let mut tile_entity_commands = commands.get_entity(layer.2).unwrap();
         tile_entity_commands.add(|entity, world: &mut World| {
