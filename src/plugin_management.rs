@@ -34,14 +34,8 @@ impl PluginGroup for CorePluginGroup {
 struct CoreSystems;
 impl Plugin for CoreSystems {
     fn build(&self, app: &mut App) {
-        app.add_systems(Startup, startup).add_systems(
-            Update,
-            (
-                move_camera,
-                update_fps_counter,
-                move_layer_pos.run_if(on_timer(Duration::from_millis(500))),
-            ),
-        );
+        app.add_systems(Startup, startup)
+            .add_systems(Update, (move_camera, update_fps_counter, move_layer_pos));
     }
 }
 

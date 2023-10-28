@@ -10,6 +10,7 @@ const S: ScanCode = ScanCode(31);
 const A: ScanCode = ScanCode(30);
 const D: ScanCode = ScanCode(32);
 const E: ScanCode = ScanCode(18);
+const Q: ScanCode = ScanCode(16);
 
 pub fn move_camera(
     time: Res<Time>,
@@ -62,7 +63,10 @@ pub fn move_layer_pos(
     key: Res<Input<ScanCode>>,
     mut layer_manager: ResMut<LayerManager>,
 ) {
-    if key.pressed(E) {
+    if key.just_pressed(E) {
+        layer_manager.move_up(&mut commands);
+    }
+    if key.just_pressed(Q) {
         layer_manager.move_down(&mut commands);
     }
 }
